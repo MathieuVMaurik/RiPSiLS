@@ -2,33 +2,23 @@
 include"./dbconnect.php";
 
 
-try
-{
+try {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $db->query("SET SESSION sql_mode = 'ANSI,ONLY_FULL_GROUP_BY'");
-}
-catch(PDOException $e)
-{
-    $sMsg = '<p>
-            Regelnummer: '.$e->getLine().'<br />
-            Bestand: '.$e->getFile().'<br />
-            Foutmelding: '.$e->getMessage().'
-        </p>';
 
-    trigger_error($sMsg);
 
     $QueryInventations = "SELECT * FROM challenges
-                          LEFT JOIN users where challenges.challenges_user_ID = user";
+                          LEFT JOIN users ON challenges.challenger_user_ID = users.ID
+                          WHERE challenged_user_ID = '1'";
 
     $StIncertations = $db->prepare($QueryInventations);
     $StIncertations->execute();
 
-    while($aRow = $StIncertations->fetch(PDO::FETCH_ASSOC))
-    {
-        echo $Inventations["username"];
+    while ($aRow = $StIncertations->fetch(PDO::FETCH_ASSOC)) {
+        echo $aRow["username"];
     }
-}
 
+}
 catch(PDOException $e)
 {
     $sMsg = '<p>
