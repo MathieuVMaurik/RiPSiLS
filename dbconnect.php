@@ -10,3 +10,4 @@ $params = array(
 
 global $db;
 $db = new PDO("mysql:host={$params['host']};port={$params['port']};dbname={$params['dbname']};", $params['username'], $params['password'], array());
+

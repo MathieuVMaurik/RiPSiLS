@@ -1,21 +1,22 @@
 <?php
 include"./dbconnect.php";
-
+include "./Challenge.php";
 
 try {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $db->query("SET SESSION sql_mode = 'ANSI,ONLY_FULL_GROUP_BY'");
 
 
-    $QueryInvit = "SELECT * FROM challenges
+    $QueryInvite = "SELECT username,challenges.ID FROM challenges
                           LEFT JOIN users ON challenges.challenger_user_ID = users.ID
                           WHERE challenged_user_ID = '1'";
 
     $StInvite = $db->prepare($QueryInvite);
     $StInvite->execute();
 
-    while ($aRow = $StIncertations->fetch(PDO::FETCH_ASSOC)) {
-        echo $aRow["username"];
+    while ($aRow = $StInvite->fetch(PDO::FETCH_ASSOC))
+    {
+        echo $aRow["username"]."  <a href='index.php?challenge=1&challenge_ID=".$aRow["ID"]."'>accept</a>          <a href='index.php?challenge=0&challenge_ID=".$aRow["ID"]."'>NO!</a></br>";
+
     }
 
 }
