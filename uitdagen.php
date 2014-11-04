@@ -1,6 +1,7 @@
 <?php
 /**
- * Created by CasualVictim.
+ * Created by Armand Mahieu.
+ * Published for RiPSiLS
  * Date: 04-11-2014
  */
 
@@ -13,17 +14,19 @@ require_once"dbconnect.php";
     <br>
     <br>
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        //Naam van tegenstander
+        <!-- Naam van tegenstander -->
         <label for="tegenstander">Voer hier de naam van je tegenspeler in</label>
         <br>
         <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text">
         <br><br>
-        //Uiterst aantal dagen van actieve uitnodiging
+
+        <!-- Uiterst aantal dagen van actieve uitnodiging -->
         <label for="verloopdatum">Aantal dagen dat de uitnodiging actief blijft</label>
         <br>
         <input id="verloopdatum" name="Verloopdagen" placeholder="3"  max="7" type="number">
         <br><br>
-        //
+
+        <!-- Zet kiezen -->
         <label for="zet">Kies je zet</label>
         <br>
         <input type="radio" name="Zet" value="rock"><img src="img/rock.png">
