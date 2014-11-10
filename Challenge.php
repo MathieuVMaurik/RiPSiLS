@@ -1,24 +1,26 @@
 <?php
-if(isset($_GET["challenge_ID"]))
+
+function UpdateChallenge($ID,$db)
+{
+    $UpdateChallenge = "UPDATE challenges SET active = 0 WHERE ID = :ID";
+    $StUpdate = $db->prepare($UpdateChallenge);
+    $StUpdate->bindParam(':ID', $ID, PDO::PARAM_INT);
+    $StUpdate->execute();
+}
+
+if($challenge_ID)
 {
     try {
         $ID = $_GET['challenge_ID'];
-        if ($_GET["challenge"] == "1")
+        if ($_POST["challenge"] == "1")
         {
 
-
-            $UpdateChallenge = "UPDATE challenges SET active = 0 WHERE ID ='".$ID."'";
-            $StUpdate = $db->prepare($UpdateChallenge);
-            $StUpdate->execute();
-
-
+            UpdateChallenge($ID,$db);
 
             echo "Accepted </br>";
-        } elseif ($_GET["challenge"] == "0")
+        } elseif ($_POST["challenge"] == "0")
         {
-            $UpdateChallenge = "UPDATE challenges SET active = 0 WHERE ID ='".$ID."'";
-            $StUpdate = $db->prepare($UpdateChallenge);
-            $StUpdate->execute();
+            UpdateChallenge($ID,$db);
 
             echo "Declined </br>";
         }
