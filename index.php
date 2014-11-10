@@ -1,5 +1,26 @@
 <?php
+
+/*
+ * This script will NOT work on any PHP version lower than 5.4.
+ */
+
+session_start();
+
 include"./dbconnect.php";
+
+if(isset($_SESSION['user']))
+{
+    ?>
+    <p>Je bent ingelogd als <strong><?= $_SESSION['user']; ?></strong>. <a href="logout.php">Klik hier</a> om uit te loggen.</p>
+    <?php
+}
+else
+{
+    ?>
+    <p><a href="login.php">Inloggen</a></p>
+    <?php
+}
+
 include "./Challenge.php";
 
 try {
@@ -8,7 +29,7 @@ try {
 
     $QueryInvite = "SELECT username,challenges.ID FROM challenges
                           LEFT JOIN users ON challenges.challenger_user_ID = users.ID
-                          WHERE challenged_user_ID = '1' AND active = '1'";
+                          WHERE challenged_user_ID = '1' AND active='1'";
 
     $StInvite = $db->prepare($QueryInvite);
     $StInvite->execute();
