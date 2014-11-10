@@ -12,6 +12,7 @@ if(isset($_SESSION['user']))
 {
     ?>
     <p>Je bent ingelogd als <strong><?= $_SESSION['user']; ?></strong>. <a href="logout.php">Klik hier</a> om uit te loggen.</p>
+    <p><a href="uitdagen.php">Daag iemand uit!</a></p>
     <?php
 }
 else
@@ -55,3 +56,5 @@ catch(PDOException $e)
 
 
 echo "<h1>Uitnodigingen</h1>";
+
+?>
