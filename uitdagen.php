@@ -16,7 +16,7 @@ echo "Je bent ingelogd als $username .";
 Terug naar <a href="index.php">Home</a>
     <link rel="stylesheet" href="include/style.css" type="text/css" media="screen" />
 <p>
-    <h1>Daag iemand uit:</h1>
+    <h1>Daag iemand uit</h1>
 
 
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
