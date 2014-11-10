@@ -11,7 +11,6 @@ require_once"dbconnect.php";
 $tempuserid = 55;
 
 ?>
-    <link rel="stylesheet" href="include/style.css" type="text/css" media="screen" />
 
     <h1>Daag iemand uit:</h1>
     <br>
@@ -32,33 +31,11 @@ $tempuserid = 55;
         <!-- Zet kiezen -->
         <label for="zet">Choose your challenge</label>
         <br>
-
-        <label class="button">
-            <input id="zet" type="radio" name="Zet" value="rock" />
-            <img src="img/rock.png">
-        </label>
-        <label class="button">
-            <input id="zet" type="radio" name="Zet" value="paper" />
-            <img src="img/paper.png">
-        </label>
-        <label class="button">
-            <input id="zet" type="radio" name="Zet" value="scissors" />
-            <img src="img/scissors.png">
-        </label>
-        <label class="button">
-            <input id="zet" type="radio" name="Zet" value="lizard" />
-            <img src="img/lizard.png">
-        </label>
-        <label class="button">
-            <input id="zet" type="radio" name="Zet" value="spock" />
-            <img src="img/spock.png">
-        </label>
-
-        <!-- <input type="radio" name="Zet" value="rock"><img src="img/rock.png">
+        <input type="radio" name="Zet" value="rock"><img src="img/rock.png">
         <input type="radio" name="Zet" value="paper"><img src="img/paper.png">
         <input type="radio" name="Zet" value="scissors"><img src="img/scissors.png">
         <input type="radio" name="Zet" value="lizard"><img src="img/lizard.png">
-        <input type="radio" name="Zet" value="spock"><img src="img/spock.png"> -->
+        <input type="radio" name="Zet" value="spock"><img src="img/spock.png">
         <br><br>
         <br>
         <br>
@@ -73,30 +50,26 @@ $tempuserid = 55;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["Tegenstander"])) {
         if (isset($_POST["Verloopdagen"])) {
-            if (isset($_POST["zet"])) {
+            if (isset($_POST["Zet"])) {
                 $tegenstander = $_POST["Tegenstander"];
                 $verloopdagen = $_POST["Verloopdagen"];
 
-                if (isset($_POST["zet"]) == "rock" ) {
+                if (isset($_POST["Zet"]) == "rock" ) {
                     $eerstezet = 1;
                     echo "You have selected Rock";
-                } elseif (isset($_POST["zet"]) == "paper") {
+                } elseif (isset($_POST["Zet"]) == "paper") {
                     $eerstezet = 2;
                     echo "You have selected Paper";
-                } elseif (isset($_POST["zet"]) == "scissors") {
+                } elseif (isset($_POST["Zet"]) == "scissors") {
                     $eerstezet = 3;
                     echo "You have selected Scissors";
-                } elseif (isset($_POST["zet"]) == "lizard") {
+                } elseif (isset($_POST["Zet"]) == "lizard") {
                     $eerstezet = 4;
                     echo "You have selected Lizard";
-                } elseif (isset($_POST["zet"]) == "spock") {
+                } elseif (isset($_POST["Zet"]) == "spock") {
                     $eerstezet = 5;
                     echo "You have selected Spock";
                 }
-                else{
-                    echo "You have not selected a challenge";
-                }
-
                 echo " and are playing against: $tegenstander";
             }
         }
