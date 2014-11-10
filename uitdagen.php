@@ -7,31 +7,35 @@
 
 require_once"dbconnect.php";
 
-//Tijdelijk
-$tempuserid = 55;
-
+session_start();
+if(isset($_SESSION['user'])) {
+    $username = $_SESSION['user'];
+}
+echo "Je bent ingelogd als $username .";
 ?>
+Terug naar <a href="index.php">Home</a>
     <link rel="stylesheet" href="include/style.css" type="text/css" media="screen" />
-
+<p>
     <h1>Daag iemand uit:</h1>
-    <br>
-    <br>
+
+
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <!-- Naam van tegenstander -->
         <label for="tegenstander">Type the name of your opponent</label>
-        <br>
-        <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text">
-        <br><br>
 
+        <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text">
+</p>
+<p>
         <!-- Uiterst aantal dagen van actieve uitnodiging -->
         <label for="verloopdatum">Amount of days that the challenge stays available</label>
-        <br>
-        <input id="verloopdatum" name="Verloopdagen" placeholder="3"  max="7" type="number">
-        <br><br>
 
+        <input id="verloopdatum" name="Verloopdagen" placeholder="3"  max="7" type="number">
+
+</p>
+        <p>
         <!-- Zet kiezen -->
-        <label for="lbzet">Choose your challenge</label>
-        <br>
+        <label for="lbzet">Choose your challenge<br></label>
+
 
 
         <label class="button">
@@ -63,17 +67,20 @@ $tempuserid = 55;
         <input type="radio" name="Zet" value="lizard"><img src="img/lizard.png">
         <input type="radio" name="Zet" value="spock"><img src="img/spock.png">
         -->
-        <br><br>
-        <br>
-        <br>
+
+
+
         <input type="submit" value="Challenge!"/>
-        <br>
-        <br>
+
+
     </form>
+</p>
 <?php
 
 
-
+/**
+ *
+ */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["Tegenstander"])) {
         if (isset($_POST["Verloopdagen"])) {
@@ -112,8 +119,9 @@ try {
     //$db->query("SET SESSION sql_mode = 'ANSI, ONLY_FULL_GROUP_BY'");
 
     //Challenger ID opvragen
-    $QuerychallengerID = "SELECT ID FROM users WHERE username = '$tegenstander'";
+    $QuerychallengerID = "SELECT ID FROM users WHERE username = :tegenstander";
     $stChallengerID = $db->prepare($QuerychallengerID);
+    $stChallengerID->bindParam(':tegenstander', $tegenstander, PDO::PARAM_STR);
     $stChallengerID->execute();
 
     while($aRow = $stChallengerID->fetch(PDO::FETCH_ASSOC))
@@ -121,9 +129,20 @@ try {
         $tegenstanderid = $aRow["ID"];
     }
 
+    //Eigen ID
+    $QueryownID = "SELECT ID FROM users WHERE username = :username";
+    $stownID = $db->prepare($QueryownID);
+    $stownID->bindParam(':username', $username, PDO::PARAM_STR);
+    $stownID->execute();
+
+    while($bRow = $stownID->fetch(PDO::FETCH_ASSOC))
+    {
+        $EigenID = $bRow["ID"];
+    }
+
     $date = date('YmdHi');
 
-    $QueryChallenge = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date,1,$verloopdagen,$tempuserid,$eerstezet, $tegenstanderid,0)";
+    $QueryChallenge = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date,1,$verloopdagen,$EigenID,$eerstezet, $tegenstanderid,0)";
     $stChallenge = $db->prepare($QueryChallenge);
     $stChallenge->execute();
 
@@ -133,6 +152,7 @@ try {
 
 
 }
+
 catch(PDOException $e)
 {
     $sMsg = '<p>
