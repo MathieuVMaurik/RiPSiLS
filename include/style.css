@@ -1,0 +1,15 @@
+label > input{
+    display:none;
+}
+label > input + img{
+    cursor:pointer;
+    border:2px solid transparent;
+}
+label > input:checked + img{
+    border:4px solid #AAA;
+}
+
+body {
+    background-color:white;
+
+}
