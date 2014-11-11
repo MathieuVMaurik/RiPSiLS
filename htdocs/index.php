@@ -6,16 +6,14 @@
 
 session_start();
 
-include"./dbconnect.php";
+require_once"./dbconnect.php";
 
 if(isset($_SESSION['user']))
 {
     ?>
     <p>Je bent ingelogd als <strong><?= $_SESSION['user']; ?></strong>. <a href="logout.php">Klik hier</a> om uit te loggen.</p>
-    <p><a href="uitdagen.php">Challenge someone!</a></p>
-    <p><a href="challengessent.php">Sent challenges</a></p>
-    <p><a href="Challenge.php">Received challenges</a></p>
-    <?php
+    <h1>Uitnodigingen</h1>
+<?php
 }
 else
 {
@@ -24,9 +22,10 @@ else
     <?php
 }
 
-include "./Challenge.php";
+
 
 try {
+
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
@@ -35,11 +34,21 @@ try {
                           WHERE challenged_user_ID = '1' AND active='1'";
 
     $StInvite = $db->prepare($QueryInvite);
+    $StInvite->bindParam(':UserID', $_SESSION['user'], PDO::PARAM_INT);
     $StInvite->execute();
 
     while ($aRow = $StInvite->fetch(PDO::FETCH_ASSOC))
     {
-        echo $aRow["username"]."  <a href='index.php?challenge=1&challenge_ID=".$aRow["ID"]."'>accept</a>          <a href='index.php?challenge=0&challenge_ID=".$aRow["ID"]."'>NO!</a></br>";
+        $ID = $aRow["ID"];
+        $ChallengeName = $aRow["username"];
+
+        echo "
+        <form action='Challenge.php' method='post'>
+        ". $ChallengeName ."
+        <input type='submit' name='Inventations[".$ID."][accept]'  value='accept'>
+        <input type='submit' name='Inventations[".$ID."][decline]' value='decline'>
+        </form>
+        " ;
 
     }
 
@@ -57,6 +66,3 @@ catch(PDOException $e)
 
 
 
-echo "<h1>Uitnodigingen</h1>";
-
-?>

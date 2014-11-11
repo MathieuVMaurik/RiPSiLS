@@ -1,38 +1,42 @@
 <?php
+require_once "./dbconnect.php";
 
-function UpdateChallenge($ID,$db)
-{
-    $UpdateChallenge = "UPDATE challenges SET active = 0 WHERE ID = :ID";
-    $StUpdate = $db->prepare($UpdateChallenge);
-    $StUpdate->bindParam(':ID', $ID, PDO::PARAM_INT);
-    $StUpdate->execute();
-}
 
-if($challenge_ID)
+
+foreach($_POST["Inventations"] as $ID => $Status)
 {
+$stats = implode( " ",$Status);
+
+    function UpdateChallenge($ID, $db)
+    {
+        $UpdateChallenge = "UPDATE challenges SET active = 0 WHERE ID = :ID";
+        $StUpdate = $db->prepare($UpdateChallenge);
+        $StUpdate->bindParam(':ID', $ID, PDO::PARAM_INT);
+        $StUpdate->execute();
+    }
+
+
     try {
-        $ID = $_GET['challenge_ID'];
-        if ($_POST["challenge"] == "1")
+        if ($stats == "accept")
         {
 
-            UpdateChallenge($ID,$db);
+             UpdateChallenge($ID,$db);
 
             echo "Accepted </br>";
-        } elseif ($_POST["challenge"] == "0")
+        } elseif ($stats == "decline")
         {
-            UpdateChallenge($ID,$db);
+             UpdateChallenge($ID,$db);
 
             echo "Declined </br>";
         }
-    }
-    catch(PDOException $e)
-    {
+    } catch (PDOException $e) {
         $sMsg = '<p>
-            Regelnummer: '.$e->getLine().'<br />
-            Bestand: '.$e->getFile().'<br />
-            Foutmelding: '.$e->getMessage().'
+            Regelnummer: ' . $e->getLine() . '<br />
+            Bestand: ' . $e->getFile() . '<br />
+            Foutmelding: ' . $e->getMessage() . '
         </p>';
 
         trigger_error($sMsg);
     }
 }
+header("location:./index.php");
