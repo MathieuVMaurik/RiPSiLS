@@ -6,15 +6,19 @@
  */
 
 require_once"dbconnect.php";
-
-session_start();
-if(isset($_SESSION['user'])) {
-    $username = $_SESSION['user'];
-}
-echo "Je bent ingelogd als $username .";
 ?>
-Terug naar <a href="index.php">Home</a>
-<link rel="stylesheet" href="include/style.css" type="text/css" media="screen" />
+<body class="challengessentbody">
+<p>
+    <?php
+    session_start();
+    if(isset($_SESSION['user'])) {
+        $username = $_SESSION['user'];
+    }
+    echo "Je bent ingelogd als $username .";
+    ?>
+    Terug naar <a href="index.php">Home</a>
+    <link rel="stylesheet" href="include/style.css" type="text/css" media="screen" />
+</p>
 <?php
 try {
 
@@ -33,33 +37,159 @@ try {
         $EigenID = $bRow["ID"];
     }
 
+    ?>
+    <p>
+        <label class="ID">Challenge ID</label>   <label class="move1">Your move</label>   <label class="move2">Opposing move</label>   <label class="opp">Opponent</label>
+    </p>
+    <div class="list">
+        <?php
+        //Verzonden uitdagingen opvragen
+        $QueryActivechallenges = "SELECT ID, challenger_move, challenged_move, challenged_user_ID, active FROM challenges WHERE challenger_user_ID = :id AND active != 0";
+        $stActivechallenges = $db->prepare($QueryActivechallenges);
+        $stActivechallenges->bindParam(':id', $EigenID, PDO::PARAM_STR);
+        $stActivechallenges->execute();
+
+        while ($aRow = $stActivechallenges->fetch(PDO::FETCH_ASSOC)) {
+            $listID = $aRow["ID"];
+            $listYourMove = $aRow["challenger_move"];
+            $listOpposingMove = $aRow["challenged_move"];
+            $listOpposingPlayer = $aRow["challenged_user_ID"];
+            $listActive = $aRow["active"];
+
+            $count = 1;
+            foreach($aRow as $key => $value) {
+                if($count == 1){
+
+                    ?>
+                    <input type="radio" name="delete" value="<?php $listID ?>"></input>
+                    <label class="align"><?php echo $listID; ?></label>
+                    <?php
+                    $count++;
+                }
+                ?>
+
+                <?php
+                if($count == 2){
+                    ?>
+                    <label class="align"><?php
+                        //Jouw zet
+                        if($listYourMove == 1) {
+                            echo "Rock";
+                        }
+                        elseif($listYourMove == 2) {
+                            echo "Paper";
+                        }
+                        elseif($listYourMove == 3) {
+                            echo "Scissors";
+                        }
+                        elseif($listYourMove == 4) {
+                            echo "Lizard";
+                        }
+                        elseif($listYourMove == 5) {
+                            echo "Spock";
+                        }
+                        ?></label>
+                    <?php
+                    $count++;
+                }
+                ?>
+
+                <?php
+                if($count == 3){
+                    ?>
+                    <label class="align"><?php
+                        //Tegenstanders zet
+                        if($listOpposingMove == 1) {
+                            echo "Rock";
+                        }
+                        elseif($listOpposingMove == 2) {
+                            echo "Paper";
+                        }
+                        elseif($listOpposingMove == 3) {
+                            echo "Scissors";
+                        }
+                        elseif($listOpposingMove == 4) {
+                            echo "Lizard";
+                        }
+                        elseif($listOpposingMove == 5) {
+                            echo "Spock";
+                        }
+                        else{ echo "None";}
+                        ?></label>
+                    <?php
+                    $count++;
+                }
+                ?>
+
+                <?php
+                if($count == 4){
+                    //Tegenstander Naam
+                    $QueryoppName = "SELECT username FROM users WHERE ID = :oppid";
+                    $stoppName = $db->prepare($QueryoppName);
+                    $stoppName->bindParam(':oppid', $listOpposingPlayer, PDO::PARAM_STR);
+                    $stoppName->execute();
+
+                    while($cRow = $stoppName->fetch(PDO::FETCH_ASSOC))
+                    {
+                        $OppName = $cRow["username"];
+                    }
+                    ?>
+
+                    <label class="align"><?php
+                        echo $OppName;
+                        ?></label>
+                    <?php
+                    $count++;
+
+                }
+                if($count == 5){
+                    ?>
+                    <label class="align"><?php
+                        //activiteit
+                        if($listActive == 1) {
+                            echo "Not Yet Answered";
+                        }
+                        elseif($listActive == 2) {
+                            echo "Accepted";
+                        }
+                        elseif($listActive == 0) {
+                            echo "Played";
+                        }
+                        elseif($listActive == 3) {
+                            echo "Declined";
+                        }
+                        ?></label>
+                    <?php
+                    $count++;
+                }
+                if($count == 6)
+                {
+                    echo '<br>';
+                }
+            }
+        }
+
+        ?></div>
+    <p>
+        <label class="ID">Challenge ID</label>  <label class="move1">Your move</label>  <label class="move2">Opposing move</label>  <label class="opp">Opponent</label>
+    </p>
 
 
+    <?php
 
-//Verzonden uitdagingen opvragen
-    $QueryActivechallenges = "SELECT * FROM challenges WHERE challenger_user_ID = :id";
-    $stActivechallenges = $db->prepare($QueryActivechallenges);
-    $stActivechallenges->bindParam(':id', $EigenID, PDO::PARAM_STR);
-    $stActivechallenges->execute();
-
-    while ($aRow = $stActivechallenges->fetch(PDO::FETCH_ASSOC)) {
-        $listID = $aRow["ID"];
-        $listYourMove = $aRow["challenger_move"];
-        $listOpposingMove = $aRow["challenged_move"];
-        $listOpposingPlayer = $aRow["challenged_user_ID"];
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST["delete"])) {
+            $deleteid = $_POST["delete"];
+        }
     }
 
-    //Tegenstander Naam
-    $QueryoppName = "SELECT username FROM users WHERE ID = :oppid";
-    $stoppName = $db->prepare($QueryoppName);
-    $stoppName->bindParam(':oppid', $listOpposingPlayer, PDO::PARAM_STR);
-    $stoppName->execute();
+     $QueryDelete = "UPDATE challenges SET active = 0 WHERE ID = $deleteid;";
+     $stDelete = $db->prepare($QueryDelete);
+     $stDelete->execute();
 
-    while($cRow = $stoppName->fetch(PDO::FETCH_ASSOC))
-    {
-        $OppName = $cRow["username"];
-    }
-
+?>
+<input type="submit" value="Delete!"/>
+<?php
 }
 catch(PDOException $e)
 {
@@ -73,56 +203,10 @@ catch(PDOException $e)
 }
 ?>
 
-<p>Challenge ID | Your move | Opposing move | Opponent</p>
-<p>
-
-<?php
-
-echo $listID;
-echo " | ";
-
-//Jouw zet
-if($listYourMove == 1) {
-    echo "Rock";
-}
-elseif($listYourMove == 2) {
-    echo "Paper";
-}
-elseif($listYourMove == 3) {
-    echo "Scissors";
-}
-elseif($listYourMove == 4) {
-    echo "Lizard";
-}
-elseif($listYourMove == 5) {
-    echo "Spock";
-}
-
-echo " | ";
-
-//Tegenstanders zet
-if($listOpposingMove == 1) {
-    echo "Rock";
-}
-elseif($listOpposingMove == 2) {
-    echo "Paper";
-}
-elseif($listOpposingMove == 3) {
-    echo "Scissors";
-}
-elseif($listOpposingMove == 4) {
-    echo "Lizard";
-}
-elseif($listOpposingMove == 5) {
-    echo "Spock";
-}
-else{ echo "Your opponent has not yet made a move";}
-
-echo " | ";
-
-//Tegenstander
-echo $OppName;
 
 
-    ?>
-</p>
+
+
+
+
+</body>
