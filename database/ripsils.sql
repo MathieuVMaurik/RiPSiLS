@@ -122,7 +122,7 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-INSERT INTO `ripsils`.`users` (`ID`, `create_date`, `username`, `password`) VALUES ('1', '123456789', 'Bob', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka');
-INSERT INTO `ripsils`.`users` (`ID`, `create_date`, `username`, `password`) VALUES ('2', '123456789', 'Jan', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka');
-INSERT INTO `ripsils`.`users` (`ID`, `create_date`, `username`, `password`) VALUES ('3', '123456789', 'Pieter', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka');
-INSERT INTO `ripsils`.`users` (`ID`, `create_date`, `username`, `password`) VALUES ('4', '123456789', '12345', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka');
+INSERT INTO `ripsils`.`users` (`ID`, `create_date`, `username`, `password`) VALUES ('1', '2014-01-01 17:00:00', 'Bob', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka');
+INSERT INTO `ripsils`.`users` (`ID`, `create_date`, `username`, `password`) VALUES ('2', '2014-01-01 17:00:00', 'Jan', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka');
+INSERT INTO `ripsils`.`users` (`ID`, `create_date`, `username`, `password`) VALUES ('3', '2014-01-01 17:00:00', 'Pieter', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka');
+INSERT INTO `ripsils`.`users` (`ID`, `create_date`, `username`, `password`) VALUES ('4', '2014-01-01 17:00:00', '12345', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka');
