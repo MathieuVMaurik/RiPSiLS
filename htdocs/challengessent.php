@@ -6,18 +6,18 @@
  */
 
 require_once"dbconnect.php";
+require"index.php";
 ?>
 <body class="challengessentbody">
 <p>
     <?php
-    session_start();
     if(isset($_SESSION['user'])) {
         $username = $_SESSION['user'];
     }
-    echo "Je bent ingelogd als $username .";
+
+
     ?>
     Terug naar <a href="index.php">Home</a>
-    <link rel="stylesheet" href="include/style.css" type="text/css" media="screen" />
 </p>
 <?php
 try {
@@ -55,13 +55,11 @@ try {
             $listOpposingMove = $aRow["challenged_move"];
             $listOpposingPlayer = $aRow["challenged_user_ID"];
             $listActive = $aRow["active"];
-
-            $count = 1;
+            echo '<br>';
+            $count = 1;;
             foreach($aRow as $key => $value) {
                 if($count == 1){
-
                     ?>
-                    <input type="radio" name="delete" value="<?php $listID ?>"></input>
                     <label class="align"><?php echo $listID; ?></label>
                     <?php
                     $count++;
@@ -162,10 +160,6 @@ try {
                     <?php
                     $count++;
                 }
-                if($count == 6)
-                {
-                    echo '<br>';
-                }
             }
         }
 
@@ -174,21 +168,29 @@ try {
         <label class="ID">Challenge ID</label>  <label class="move1">Your move</label>  <label class="move2">Opposing move</label>  <label class="opp">Opponent</label>
     </p>
 
+    <p>
+        <!-- Welke uitdaging uit de lijst wordt verwijderd -->
+        <label for="challengedel">Which one do you want to delete?</label>
+
+        <input id="challengedel" name="Challengedel" placeholder="x" type="number">
+
+    </p>
+    <input type="submit" value="Delete"/>
 
     <?php
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST["delete"])) {
-            $deleteid = $_POST["delete"];
+        if (isset($_POST["Challengedel"])) {
+            $challengedelid = $_POST["Challengedel"];
+
+
+            $QueryChallengedel = "UPDATE challenges SET active=0 WHERE ID=$challengedelid";
+            $stChallengedel = $db->prepare($QueryChallengedel);
+            $stChallengedel->execute();
         }
     }
+    ?>
 
-     $QueryDelete = "UPDATE challenges SET active = 0 WHERE ID = $deleteid;";
-     $stDelete = $db->prepare($QueryDelete);
-     $stDelete->execute();
-
-?>
-<input type="submit" value="Delete!"/>
 <?php
 }
 catch(PDOException $e)
@@ -202,11 +204,4 @@ catch(PDOException $e)
     trigger_error($sMsg);
 }
 ?>
-
-
-
-
-
-
-
 </body>

@@ -6,15 +6,17 @@
  */
 
 require_once"dbconnect.php";
+require"index.php";
 
-session_start();
+
 if(isset($_SESSION['user'])) {
     $username = $_SESSION['user'];
 }
-echo "Je bent ingelogd als $username .";
+
+$tegenstanderid = null;
+$eerstezet = null;
 ?>
 Terug naar <a href="index.php">Home</a>
-    <link rel="stylesheet" href="include/style.css" type="text/css" media="screen" />
 <p>
     <h1>Daag iemand uit</h1>
 
@@ -26,11 +28,11 @@ Terug naar <a href="index.php">Home</a>
         <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text">
 </p>
 <p>
-        <!-- Uiterst aantal dagen van actieve uitnodiging -->
+        <!-- Uiterst aantal dagen van actieve uitnodiging --
         <label for="verloopdatum">Amount of days that the challenge stays available</label>
 
         <input id="verloopdatum" name="Verloopdagen" placeholder="3"  max="7" type="number">
-
+        -->
 </p>
         <p>
         <!-- Zet kiezen -->
@@ -74,14 +76,14 @@ Terug naar <a href="index.php">Home</a>
 
 
     </form>
-</p>
+
 <?php
 
 
 /**
  *
  */
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
     if (isset($_POST["Tegenstander"])) {
         if (isset($_POST["Verloopdagen"])) {
             if (isset($_POST["Zet"])) {
@@ -142,7 +144,7 @@ try {
 
     $date = date('YmdHi');
 
-    $QueryChallenge = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date,1,$verloopdagen,$EigenID,$eerstezet, $tegenstanderid,0)";
+    $QueryChallenge = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date,1,3,$EigenID,$eerstezet, $tegenstanderid,0)";
     $stChallenge = $db->prepare($QueryChallenge);
     $stChallenge->execute();
 
