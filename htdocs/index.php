@@ -35,6 +35,9 @@ if(isset($_SESSION['user']))
 
     <p>Je bent ingelogd als <strong><?= $_SESSION['user']; ?></strong>. <a href="logout.php">Klik hier</a> om uit te loggen.</p>
     <div class="rules"><p>click for the rules</p> <a href="./img/rpssl.png"><img src="./img/rpssl.png" /></a></div>
+    <p><a href="uitdagen.php">Challenge someone!</a></p>
+    <p><a href="challengessent.php">Sent challenges</a></p>
+    <p><a href="Challenge.php">Received challenges</a></p>
     <h1>Uitnodigingen</h1>
 <?php
 }
