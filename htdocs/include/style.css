@@ -52,3 +52,16 @@ label{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a7cfdf', endColorstr='#23538a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
 }
+
+img {
+    height: auto;
+    max-width: 50px;
+    transition: all 1s;
+}
+img.expanded {
+    max-width: 2000px;
+}
+.rules
+{
+    float:right;
+}

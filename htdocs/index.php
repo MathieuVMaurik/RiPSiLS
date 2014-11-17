@@ -1,3 +1,21 @@
+<script type="text/javascript" src="include/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        var imageLinks = $('a[href$=".png"], a[href$=".jpg"], a[href$=".gif"], a[href$=".bmp"]');
+        if (imageLinks.children('img').length) {
+            imageLinks.children('img').each(function() {
+                var currentTitle = $(this).attr('title');
+                $(this).attr('title', currentTitle + ' (click to enlarge image)');
+            });
+            imageLinks.click(function(e) {
+                e.preventDefault();
+                $(this).children('img').toggleClass('expanded');
+
+            });
+        }
+    });
+
+</script>
 <?php
 
 /*
@@ -6,12 +24,17 @@
 
 session_start();
 
+
 require_once"./dbconnect.php";
 
 if(isset($_SESSION['user']))
 {
     ?>
+
+    <link rel="stylesheet" href="include/style.css" type="text/css" media="screen" />
+
     <p>Je bent ingelogd als <strong><?= $_SESSION['user']; ?></strong>. <a href="logout.php">Klik hier</a> om uit te loggen.</p>
+    <div class="rules"><p>click for the rules</p> <a href="./img/rpssl.png"><img src="./img/rpssl.png" /></a></div>
     <h1>Uitnodigingen</h1>
 <?php
 }
@@ -63,6 +86,5 @@ catch(PDOException $e)
 
     trigger_error($sMsg);
 }
-
-
+?>
 
