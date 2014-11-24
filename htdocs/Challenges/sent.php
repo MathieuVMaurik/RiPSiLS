@@ -5,8 +5,8 @@
  * Date: 10-11-2014
  */
 
-require_once"dbconnect.php";
-require"index.php";
+require_once "dbconnect.php";
+require "index.php";
 ?>
 <body class="challengessentbody">
 <p>
@@ -17,7 +17,7 @@ require"index.php";
 
 
     ?>
-    Terug naar <a href="index.php">Home</a>
+    Terug naar <a href="../index.php">Home</a>
 </p>
 <?php
 try {

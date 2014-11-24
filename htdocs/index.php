@@ -25,7 +25,7 @@
 session_start();
 
 
-require_once"./dbconnect.php";
+require_once "./dbconnect.php";
 
 if(isset($_SESSION['user']))
 {
@@ -33,18 +33,18 @@ if(isset($_SESSION['user']))
 
     <link rel="stylesheet" href="include/style.css" type="text/css" media="screen" />
 
-    <p>Je bent ingelogd als <strong><?= $_SESSION['user']; ?></strong>. <a href="logout.php">Klik hier</a> om uit te loggen.</p>
+    <p>Je bent ingelogd als <strong><?= $_SESSION['user']; ?></strong>. <a href="log script/logout.php">Klik hier</a> om uit te loggen.</p>
     <div class="rules"><p>click for the rules</p> <a href="./img/rpssl.png"><img src="./img/rpssl.png" /></a></div>
-    <p><a href="uitdagen.php">Challenge someone!</a></p>
-    <p><a href="challengessent.php">Sent challenges</a></p>
-    <p><a href="Challenge.php">Received challenges</a></p>
+    <p><a href="Challenges/create.php">Challenge someone!</a></p>
+    <p><a href="Challenges/sent.php">Sent challenges</a></p>
+    <p><a href="Challenges/received.php">Received challenges</a></p>
     <h1>Uitnodigingen</h1>
 <?php
 }
 else
 {
     ?>
-    <p><a href="login.php">Inloggen</a></p>
+    <p><a href="log script/login.php">Inloggen</a></p>
     <?php
 }
 
@@ -69,8 +69,8 @@ try {
         $ChallengeName = $aRow["username"];
     echo $_SESSION['user'];
         echo "
-        <form action='Challenge.php' method='post'>
-        ". $ChallengeName ."
+        <form action='Challenges/received.php' method='post'>
+        " . $ChallengeName ."
         <input type='submit' name='invitations[".$ID."][accept]'  value='accept'>
         <input type='submit' name='invitations[".$ID."][decline]' value='decline'>
         </form>

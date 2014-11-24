@@ -5,18 +5,18 @@
  * Date: 04-11-2014
  */
 
-require_once"dbconnect.php";
-require"index.php";
+require_once "dbconnect.php";
+require "index.php";
 
 
 if(isset($_SESSION['user'])) {
     $username = $_SESSION['user'];
 }
 
-
+$tegenstanderid = null;
+$eerstezet = null;
 ?>
-<body>
-Terug naar <a href="index.php">Home</a>
+Terug naar <a href="../index.php">Home</a>
 <p>
     <h1>Daag iemand uit</h1>
 
@@ -42,23 +42,23 @@ Terug naar <a href="index.php">Home</a>
 
         <label class="button">
             <input id="zet" type="radio" name="Zet" value="rock" />
-            <img src="img/rock.png">
+            <img src="../img/rock.png">
         </label>
         <label class="button">
             <input id="zet" type="radio" name="Zet" value="paper" />
-            <img src="img/paper.png">
+            <img src="../img/paper.png">
         </label>
         <label class="button">
             <input id="zet" type="radio" name="Zet" value="scissors" />
-            <img src="img/scissors.png">
+            <img src="../img/scissors.png">
         </label>
         <label class="button">
             <input id="zet" type="radio" name="Zet" value="lizard" />
-            <img src="img/lizard.png">
+            <img src="../img/lizard.png">
         </label>
         <label class="button">
             <input id="zet" type="radio" name="Zet" value="spock" />
-            <img src="img/spock.png">
+            <img src="../img/spock.png">
         </label>
 
 
@@ -143,18 +143,10 @@ try {
     }
 
     $date = date('YmdHi');
-    if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
-        if (isset($_POST["Tegenstander"])) {
-            if (isset($_POST["Verloopdagen"])) {
-                if (isset($_POST["Zet"])) {
-                    $QueryChallenge = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date,1,3,$EigenID,$eerstezet, $tegenstanderid,0)";
-                    $stChallenge = $db->prepare($QueryChallenge);
-                    $stChallenge->execute();
-                }
-            }
-        }
-    }
 
+    $QueryChallenge = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date,1,3,$EigenID,$eerstezet, $tegenstanderid,0)";
+    $stChallenge = $db->prepare($QueryChallenge);
+    $stChallenge->execute();
 
 
 
@@ -174,4 +166,3 @@ catch(PDOException $e)
     trigger_error($sMsg);
 }
 ?>
-</body>
