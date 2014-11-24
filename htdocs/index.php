@@ -1,21 +1,23 @@
 <script type="text/javascript" src="include/jquery.js"></script>
 <script>
-    $(document).ready(function() {
-        var imageLinks = $('a[href$=".png"], a[href$=".jpg"], a[href$=".gif"], a[href$=".bmp"]');
-        if (imageLinks.children('img').length) {
-            imageLinks.children('img').each(function() {
-                var currentTitle = $(this).attr('title');
-                $(this).attr('title', currentTitle + ' (click to enlarge image)');
-            });
-            imageLinks.click(function(e) {
-                e.preventDefault();
-                $(this).children('img').toggleClass('expanded');
+    $(function () {
+        $(".rulesresize").click(function() {
+            var img = $(".rulesimg");
 
-            });
-        }
+            if (img.width() < 200)
+            {
+                img.animate({width: "250px", height: "250px"}, 750);
+            }
+            else
+            {
+                img.animate({width: "50px", height: "50px"}, 750);
+            }
+        });
+
     });
 
 </script>
+
 <?php
 
 /*
@@ -34,7 +36,7 @@ if(isset($_SESSION['user']))
     <link rel="stylesheet" href="include/style.css" type="text/css" media="screen" />
 
     <p>Je bent ingelogd als <strong><?= $_SESSION['user']; ?></strong>. <a href="log script/logout.php">Klik hier</a> om uit te loggen.</p>
-    <div class="rules"><p>click for the rules</p> <a href="./img/rpssl.png"><img src="./img/rpssl.png" /></a></div>
+    <div class="rules"><p>click for the rules</p><a class="rulesresize"><img class="rulesimg" id="rulesimg" src="./img/rpssl.png" width="50" /></a></div>
     <div class="menu">
     <a href="index.php">Home</a>
     <a href="index.php?Create">Challenge someone!</a>

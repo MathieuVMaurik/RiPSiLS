@@ -42,14 +42,8 @@ label{
 }
 
 
-img {
-    height: auto;
-    max-width: 50px;
-    transition: all 1s;
-}
-img.expanded {
-    max-width: 2000px;
-}
+
+
 .rules
 {
     float:right;
@@ -66,9 +60,4 @@ img.expanded {
     margin-left: auto;
     margin-right: auto;
     max-width: 800px;
-}
-
-.selectable
-{
-    width: 150px;
 }
