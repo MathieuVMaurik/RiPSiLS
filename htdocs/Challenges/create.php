@@ -14,7 +14,7 @@ if(isset($_SESSION['user'])) {
 
 ?>
 <p>
-    <h1>Daag iemand uit</h1>
+    <h1>Challenge someone</h1>
 
 
     <form method="post" action="Challenges/createscript.php">
