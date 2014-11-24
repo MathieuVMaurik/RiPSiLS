@@ -3,7 +3,7 @@ require_once "./dbconnect.php";
 
 
 
-foreach($_POST["Inventations"] as $ID => $Status)
+foreach($_POST["invitations"] as $ID => $Status)
 {
 $stats = implode( " ",$Status);
 

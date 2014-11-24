@@ -71,8 +71,8 @@ try {
         echo "
         <form action='Challenge.php' method='post'>
         ". $ChallengeName ."
-        <input type='submit' name='Inventations[".$ID."][accept]'  value='accept'>
-        <input type='submit' name='Inventations[".$ID."][decline]' value='decline'>
+        <input type='submit' name='invitations[".$ID."][accept]'  value='accept'>
+        <input type='submit' name='invitations[".$ID."][decline]' value='decline'>
         </form>
         " ;
 
