@@ -19,12 +19,35 @@ require"index.php";
     ?>
     Terug naar <a href="index.php">Home</a>
 </p>
+
+<form>
+    <label for="delete">Amount of days that the challenge stays available</label>
+
+    <input id="delete" name="Challengedel" placeholder="3"  type="number">
+
+    <input type="submit" value="Delete"/>
+</form>
+
 <?php
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["Challengedel"])) {
+        $challengedelid = $_POST["Challengedel"];
+    }
+}
+
 try {
 
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-
+if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
+    if (isset($_POST["Challengedel"])) {
+        $QueryChallengedel = "UPDATE challenges SET active=0 WHERE ID=$challengedelid";
+        $stChallengedel = $db->prepare($QueryChallengedel);
+        $stChallengedel->execute();
+    }
+}
 
     //Eigen ID
     $QueryownID = "SELECT ID FROM users WHERE username = :username";
@@ -39,7 +62,7 @@ try {
 
     ?>
     <p>
-        <label class="ID">Challenge ID</label>   <label class="move1">Your move</label>   <label class="move2">Opposing move</label>   <label class="opp">Opponent</label>
+        <label class="id">Game ID</label> <label class="move1">Your move</label>   <label class="move2">Opposing move</label>   <label class="opp">Opponent</label>
     </p>
     <div class="list">
         <?php
@@ -60,7 +83,10 @@ try {
             foreach($aRow as $key => $value) {
                 if($count == 1){
                     ?>
-                    <label class="align"><?php echo $listID; ?></label>
+                    <label class="align"><?php
+                        echo $listID;
+                        ?></label>
+
                     <?php
                     $count++;
                 }
@@ -165,33 +191,12 @@ try {
 
         ?></div>
     <p>
-        <label class="ID">Challenge ID</label>  <label class="move1">Your move</label>  <label class="move2">Opposing move</label>  <label class="opp">Opponent</label>
+        <label class="id">Game ID</label> <label class="move1">Your move</label>  <label class="move2">Opposing move</label>  <label class="opp">Opponent</label>
     </p>
 
-    <p>
-        <!-- Welke uitdaging uit de lijst wordt verwijderd -->
-        <label for="challengedel">Which one do you want to delete?</label>
-
-        <input id="challengedel" name="Challengedel" placeholder="x" type="number">
-
-    </p>
-    <input type="submit" value="Delete"/>
-
-    <?php
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST["Challengedel"])) {
-            $challengedelid = $_POST["Challengedel"];
-
-
-            $QueryChallengedel = "UPDATE challenges SET active=0 WHERE ID=$challengedelid";
-            $stChallengedel = $db->prepare($QueryChallengedel);
-            $stChallengedel->execute();
-        }
-    }
-    ?>
 
 <?php
+
 }
 catch(PDOException $e)
 {
