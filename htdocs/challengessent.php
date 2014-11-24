@@ -19,24 +19,7 @@ require"index.php";
     ?>
     Terug naar <a href="index.php">Home</a>
 </p>
-
-<form>
-    <label for="delete">Amount of days that the challenge stays available</label>
-
-    <input id="delete" name="Challengedel" placeholder="3"  type="number">
-
-    <input type="submit" value="Delete"/>
-</form>
-
 <?php
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["Challengedel"])) {
-        $challengedelid = $_POST["Challengedel"];
-    }
-}
-
 try {
 
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
