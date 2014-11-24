@@ -41,17 +41,6 @@ label{
     margin-right: 12%;
 }
 
-.challengessentbody{
-    background: rgb(167,207,223); /* Old browsers */
-    background: -moz-radial-gradient(center, ellipse cover,  rgb(167,207,223) 0%, rgb(35,83,138) 100%); /* FF3.6+ */
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgb(167,207,223)), color-stop(100%,rgb(35,83,138))); /* Chrome,Safari4+ */
-    background: -webkit-radial-gradient(center, ellipse cover,  rgb(167,207,223) 0%,rgb(35,83,138) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-radial-gradient(center, ellipse cover,  rgb(167,207,223) 0%,rgb(35,83,138) 100%); /* Opera 12+ */
-    background: -ms-radial-gradient(center, ellipse cover,  rgb(167,207,223) 0%,rgb(35,83,138) 100%); /* IE10+ */
-    background: radial-gradient(ellipse at center,  rgb(167,207,223) 0%,rgb(35,83,138) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a7cfdf', endColorstr='#23538a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-
-}
 
 img {
     height: auto;
@@ -64,4 +53,17 @@ img.expanded {
 .rules
 {
     float:right;
+}
+.menu
+{
+    margin-left: auto;
+    margin-right: auto;
+    display:inline;
+
+}
+.content
+{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
 }

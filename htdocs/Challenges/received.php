@@ -1,19 +1,16 @@
 <?php
-require_once "./dbconnect.php";
-
-
+require_once "../include/dbconnect.php";
+function UpdateChallenge($ID, $db)
+{
+    $UpdateChallenge = "UPDATE challenges SET active = 0 WHERE ID = :ID";
+    $StUpdate = $db->prepare($UpdateChallenge);
+    $StUpdate->bindParam(':ID', $ID, PDO::PARAM_INT);
+    $StUpdate->execute();
+}
 
 foreach($_POST["invitations"] as $ID => $Status)
 {
 $stats = implode( " ",$Status);
-
-    function UpdateChallenge($ID, $db)
-    {
-        $UpdateChallenge = "UPDATE challenges SET active = 0 WHERE ID = :ID";
-        $StUpdate = $db->prepare($UpdateChallenge);
-        $StUpdate->bindParam(':ID', $ID, PDO::PARAM_INT);
-        $StUpdate->execute();
-    }
 
 
     try {
@@ -39,4 +36,4 @@ $stats = implode( " ",$Status);
         trigger_error($sMsg);
     }
 }
-header("location:./index.php");
+header("location:../index.php");

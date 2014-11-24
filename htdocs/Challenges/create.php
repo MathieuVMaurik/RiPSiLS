@@ -5,36 +5,32 @@
  * Date: 04-11-2014
  */
 
-require_once"dbconnect.php";
-require"index.php";
-
 
 if(isset($_SESSION['user'])) {
     $username = $_SESSION['user'];
 }
 
-
+$tegenstanderid = null;
+$eerstezet = null;
 ?>
-<body>
-Terug naar <a href="index.php">Home</a>
 <p>
-<h1>Daag iemand uit</h1>
+    <h1>Daag iemand uit</h1>
 
 
-<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <!-- Naam van tegenstander -->
-    <label for="tegenstander">Type the name of your opponent</label>
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <!-- Naam van tegenstander -->
+        <label for="tegenstander">Type the name of your opponent</label>
 
-    <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text">
-    </p>
-    <p>
+        <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text">
+</p>
+<p>
         <!-- Uiterst aantal dagen van actieve uitnodiging --
         <label for="verloopdatum">Amount of days that the challenge stays available</label>
 
         <input id="verloopdatum" name="Verloopdagen" placeholder="3"  max="7" type="number">
         -->
-    </p>
-    <p>
+</p>
+        <p>
         <!-- Zet kiezen -->
         <label for="lbzet">Choose your challenge<br></label>
 
@@ -75,7 +71,7 @@ Terug naar <a href="index.php">Home</a>
         <input type="submit" value="Challenge!"/>
 
 
-</form>
+    </form>
 
 <?php
 
@@ -157,7 +153,6 @@ try {
 
 
 
-
     $id = $db->lastInsertId();
 
 
@@ -174,4 +169,3 @@ catch(PDOException $e)
     trigger_error($sMsg);
 }
 ?>
-</body>

@@ -25,7 +25,7 @@
 session_start();
 
 
-require_once "./dbconnect.php";
+require_once "include/dbconnect.php";
 
 if(isset($_SESSION['user']))
 {
@@ -35,9 +35,11 @@ if(isset($_SESSION['user']))
 
     <p>Je bent ingelogd als <strong><?= $_SESSION['user']; ?></strong>. <a href="log script/logout.php">Klik hier</a> om uit te loggen.</p>
     <div class="rules"><p>click for the rules</p> <a href="./img/rpssl.png"><img src="./img/rpssl.png" /></a></div>
-    <p><a href="Challenges/create.php">Challenge someone!</a></p>
-    <p><a href="Challenges/sent.php">Sent challenges</a></p>
-    <p><a href="Challenges/received.php">Received challenges</a></p>
+    <div class="menu">
+    <a href="index.php">Home</a>
+    <a href="index.php?Create">Challenge someone!</a>
+    <a href="index.php?Sent">Sent challenges</a>
+    </div>
     <h1>Uitnodigingen</h1>
 <?php
 }
@@ -69,9 +71,9 @@ try {
         $ChallengeName = $aRow["username"];
     echo $_SESSION['user'];
         echo "
-        <form action='Challenges/received.php' method='post'>
+        <form action='challenges/received.php' method='post'>
         " . $ChallengeName ."
-        <input type='submit' name='invitations[".$ID."][accept]'  value='accept'>
+        <input type='submit' name='invitations[".$ID."][accept]'  value='accept' >
         <input type='submit' name='invitations[".$ID."][decline]' value='decline'>
         </form>
         " ;
@@ -90,4 +92,21 @@ catch(PDOException $e)
     trigger_error($sMsg);
 }
 ?>
+<div class="content">
+    <?php
+    if(isset($_GET['Create']))
+    {
+        require_once"challenges/create.php";
+    }
+    elseif(isset($_GET['Sent']))
+    {
+        require_once"challenges/sent.php";
+    }
+
+
+
+
+    ?>
+
+</div>
 
