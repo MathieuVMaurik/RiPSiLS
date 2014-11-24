@@ -28,7 +28,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
         {
             $_SESSION['userID'] = $user['ID'];
             $_SESSION['user'] = $username;
-            header('Location: index.php');
+            header('Location: ../index.php');
             exit();
         }
         else
