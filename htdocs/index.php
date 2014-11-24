@@ -57,17 +57,17 @@ try {
 
     $QueryInvite = "SELECT username,challenges.ID FROM challenges
                           LEFT JOIN users ON challenges.challenger_user_ID = users.ID
-                          WHERE challenged_user_ID = '1' AND active='1'";
+                          WHERE challenged_user_ID = :UserID AND active= '1'";
 
     $StInvite = $db->prepare($QueryInvite);
-    $StInvite->bindParam(':UserID', $_SESSION['user'], PDO::PARAM_INT);
+    $StInvite->bindParam(':UserID', $_SESSION['userID'], PDO::PARAM_INT);
     $StInvite->execute();
 
     while ($aRow = $StInvite->fetch(PDO::FETCH_ASSOC))
     {
         $ID = $aRow["ID"];
         $ChallengeName = $aRow["username"];
-
+    echo $_SESSION['user'];
         echo "
         <form action='Challenge.php' method='post'>
         ". $ChallengeName ."

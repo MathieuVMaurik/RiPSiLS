@@ -13,9 +13,9 @@ if(isset($_SESSION['user'])) {
     $username = $_SESSION['user'];
 }
 
-
+$tegenstanderid = null;
+$eerstezet = null;
 ?>
-<body>
 Terug naar <a href="index.php">Home</a>
 <p>
     <h1>Daag iemand uit</h1>
@@ -143,17 +143,11 @@ try {
     }
 
     $date = date('YmdHi');
-    if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
-        if (isset($_POST["Tegenstander"])) {
-            if (isset($_POST["Verloopdagen"])) {
-                if (isset($_POST["Zet"])) {
-                    $QueryChallenge = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date,1,3,$EigenID,$eerstezet, $tegenstanderid,0)";
-                    $stChallenge = $db->prepare($QueryChallenge);
-                    $stChallenge->execute();
-                }
-            }
-        }
-    }
+
+    $QueryChallenge = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date,1,3,$EigenID,$eerstezet, $tegenstanderid,0)";
+    $stChallenge = $db->prepare($QueryChallenge);
+    $stChallenge->execute();
+
 
 
     $id = $db->lastInsertId();
@@ -172,4 +166,3 @@ catch(PDOException $e)
     trigger_error($sMsg);
 }
 ?>
-</body>
