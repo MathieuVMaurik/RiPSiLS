@@ -40,10 +40,13 @@ if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
     }
 
     ?>
-    <p>
-        <label class="id">Game ID</label> <label class="move1">Your move</label>   <label class="move2">Opposing move</label>   <label class="opp">Opponent</label>
-    </p>
-    <div class="list">
+        <table>
+        <thead>
+        <tr>
+            <th class="del">Delete</th> <th class="id">Game ID</th> <th class="move1">Your move</th>   <th class="move2">Opposing move</th>   <th class="opp">Opponent</th>
+        </tr>
+        </thead>
+            <tbody>
         <?php
         //Verzonden uitdagingen opvragen
         $QueryActivechallenges = "SELECT ID, challenger_move, challenged_move, challenged_user_ID, active FROM challenges WHERE challenger_user_ID = :id AND active != 0";
@@ -51,22 +54,37 @@ if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
         $stActivechallenges->bindParam(':id', $EigenID, PDO::PARAM_STR);
         $stActivechallenges->execute();
 
+        //Delete button function
+        if(isset($_POST["delbutton"]))
+        {
+            $DeleteChallenge = "UPDATE challenges SET active = 0 WHERE ID = :IDdel";
+            $StDelete = $db->prepare($DeleteChallenge);
+            $StDelete->bindParam(':IDdel', $IDdel, PDO::PARAM_INT);
+            $StDelete->execute();
+
+        }
+
         while ($aRow = $stActivechallenges->fetch(PDO::FETCH_ASSOC)) {
             $listID = $aRow["ID"];
             $listYourMove = $aRow["challenger_move"];
             $listOpposingMove = $aRow["challenged_move"];
             $listOpposingPlayer = $aRow["challenged_user_ID"];
             $listActive = $aRow["active"];
-            echo '<br>';
-            $count = 1;;
+            ?>
+            <tr>
+            <?php
+            $count = 1;
             foreach($aRow as $key => $value) {
                 if($count == 1){
-                    ?>
-                    <label class="align"><?php
+                    ?><td>
+                    <input type="submit" value= "<?php $listID ?>" name="button"></td>
+                    <td><?php
                         echo $listID;
-                        ?></label>
+                        ?>
+                    </td>
 
                     <?php
+
                     $count++;
                 }
                 ?>
@@ -74,7 +92,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
                 <?php
                 if($count == 2){
                     ?>
-                    <label class="align"><?php
+                    <td><?php
                         //Jouw zet
                         if($listYourMove == 1) {
                             echo "Rock";
@@ -91,7 +109,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
                         elseif($listYourMove == 5) {
                             echo "Spock";
                         }
-                        ?></label>
+                        ?></td>
                     <?php
                     $count++;
                 }
@@ -100,7 +118,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
                 <?php
                 if($count == 3){
                     ?>
-                    <label class="align"><?php
+                    <td><?php
                         //Tegenstanders zet
                         if($listOpposingMove == 1) {
                             echo "Rock";
@@ -118,7 +136,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
                             echo "Spock";
                         }
                         else{ echo "None";}
-                        ?></label>
+                        ?></td>
                     <?php
                     $count++;
                 }
@@ -138,16 +156,16 @@ if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
                     }
                     ?>
 
-                    <label class="align"><?php
+                    <td><?php
                         echo $OppName;
-                        ?></label>
+                        ?></td>
                     <?php
                     $count++;
 
                 }
                 if($count == 5){
                     ?>
-                    <label class="align"><?php
+                    <td><?php
                         //activiteit
                         if($listActive == 1) {
                             echo "Not Yet Answered";
@@ -161,17 +179,24 @@ if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
                         elseif($listActive == 3) {
                             echo "Declined";
                         }
-                        ?></label>
+                        ?></td>
                     <?php
                     $count++;
                 }
             }
+            ?>
+            </tr>
+        <?php
         }
 
-        ?></div>
-    <p>
-        <label class="id">Game ID</label> <label class="move1">Your move</label>  <label class="move2">Opposing move</label>  <label class="opp">Opponent</label>
-    </p>
+        ?>
+    </tbody>
+        <tfoot>
+        <tr>
+            <td class="del">Delete</td> <td class="id">Game ID</td> <td class="move1">Your move</td>  <td class="move2">Opposing move</td>  <td class="opp">Opponent</td>
+        </tr>
+        </tfoot>
+            </table>
 
 
 <?php

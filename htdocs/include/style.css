@@ -67,3 +67,8 @@ img.expanded {
     margin-right: auto;
     max-width: 800px;
 }
+
+.selectable
+{
+    width: 150px;
+}
