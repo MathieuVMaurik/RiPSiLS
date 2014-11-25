@@ -41,6 +41,7 @@ if(isset($_SESSION['user']))
     <a href="index.php">Home</a>
     <a href="index.php?Create">Challenge someone!</a>
     <a href="index.php?Sent">Sent challenges</a>
+        <a href="index.php?Result">Challenge Results</a>
     </div>
     <h1>Uitnodigingen</h1>
 <?php
@@ -103,6 +104,10 @@ catch(PDOException $e)
     elseif(isset($_GET['Sent']))
     {
         require_once"challenges/sent.php";
+    }
+    elseif(isset($_GET['Result']))
+    {
+        require_once"challenges/result.php";
     }
 
 

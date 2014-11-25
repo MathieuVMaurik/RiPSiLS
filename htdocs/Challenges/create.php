@@ -59,7 +59,7 @@ if(isset($_SESSION['user'])) {
             <img class="selectable" src="img/spock.png">
         </label>
 
-        <input type="submit" value="Challenge!"/>
+        <p><input type="submit" value="Challenge!"/></p>
 
 
     </form>
