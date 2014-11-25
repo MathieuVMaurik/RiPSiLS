@@ -1,0 +1,20 @@
+rock - rock = draw/
+rock - paper = paper/
+rock - scissors = rock/
+rock - lizard = rock/
+rock - spock = spock/
+
+paper - paper = draw/
+paper - scissors = scissors/
+paper - lizard = lizard/
+paper - spock = paper/
+
+scissors - scissors = draw/
+scissors - lizard = scissors/
+scissors - spock = spock/
+
+lizard - lizard = draw/
+lizard - spock = lizard/
+
+spock - spock = draw/
+
