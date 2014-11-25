@@ -6,7 +6,7 @@
  * Time: 15:12
  */
 
-require_once("include/dbconnect.php");
+require_once("dbconnect.php");
 
 session_start();
 
@@ -16,14 +16,6 @@ if(!isset($_SESSION['userID']))
     session_destroy();
     exit();
 }
-
-$moves = array(
-    1 => 'Rock',
-    2 => 'Paper',
-    3 => 'Scissors',
-    4 => 'Lizard',
-    5 => 'Spock'
-);
 
 ?>
 
@@ -72,30 +64,22 @@ $moves = array(
         foreach($movesDB as $moveDB)
         {
             $games[$moveDB['game_ID']]['moves'][1][$moveDB['username']] = $moveDB['move'];
-            $games[$moveDB['game_ID']]['datetime'] = $moveDB['datetime'];
         }
+
+        echo '<hr /> <hr />';
+        echo '<h1>GAMES ARRAY</h1>';
+        echo '<pre>';
+        var_dump($games);
+        echo '</pre>';
 
         foreach($games as $game)
         {
             ?>
             <div class="game">
-                <h2><?= $game['challenger']; ?> vs. <?= $game['challenged'] ?></h2>
-
-                <?php
-                $date = new DateTime($game['datetime']);
-                $datetime = $date->format('M j Y H:i');
-                echo "<p>{$datetime}</p>";
-                ?>
+                <h2><?= $game['challenger']; ?> vs. <?= $game['challenged']; ?></h2>
 
                 <ul>
-
-                    <?php
-
-                    foreach($game['moves'][1] as $user => $move) //The [1] is temporary due to there only being one turn. Please change when multiple turns implemented.
-                    {
-                        echo "<li><strong>{$user}:</strong> {$moves[$move]} </li>";
-                    }
-                    ?>
+                    <li><?= 'd' ?></li>
                 </ul>
 
                 <p>Winnaar: <strong><?= $game['winner']; ?></strong></p>

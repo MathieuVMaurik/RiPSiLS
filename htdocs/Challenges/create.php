@@ -10,7 +10,11 @@
 if(isset($_SESSION['user'])) {
     $username = $_SESSION['user'];
 }
-
+foreach($_POST["invitations"] as $ID => $Status)
+{
+    $stats = implode(" ", $Status);
+}
+echo $ID;
 
 ?>
 <p>
@@ -21,9 +25,17 @@ if(isset($_SESSION['user'])) {
 
 
         <!-- Naam van tegenstander -->
+        <?php
+        if(isset($stats) == null) {
+            ?>
         <label for="tegenstander">Type the name of your opponent</label>
 
-        <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text">
+            <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text">
+        <?php
+        }
+
+        ?>
+        <input type="hidden" name="accept" value="<?php echo $ID; ?>" >
 </p>
 <p>
         <!-- Uiterst aantal dagen van actieve uitnodiging --
@@ -59,7 +71,7 @@ if(isset($_SESSION['user'])) {
             <img class="selectable" src="img/spock.png">
         </label>
 
-        <p><input type="submit" value="Challenge!"/></p>
+        <input type="submit" value="Challenge!"/>
 
 
     </form>

@@ -62,3 +62,11 @@ label{
     margin-right: auto;
     max-width: 800px;
 }
+.selectable
+{
+    width:125px;
+}
+.recieved
+{
+    fload:left;
+}

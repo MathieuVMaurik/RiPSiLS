@@ -41,7 +41,6 @@ if(isset($_SESSION['user']))
     <a href="index.php">Home</a>
     <a href="index.php?Create">Challenge someone!</a>
     <a href="index.php?Sent">Sent challenges</a>
-        <a href="index.php?Result">Challenge Results</a>
     </div>
     <h1>Uitnodigingen</h1>
 <?php
@@ -72,13 +71,13 @@ try {
     {
         $ID = $aRow["ID"];
         $ChallengeName = $aRow["username"];
-    echo $_SESSION['user'];
-        echo "
-        <form action='challenges/received.php' method='post'>
+        echo "<div class='received'>
+        <form action='index.php?Create' method='post'>
         " . $ChallengeName ."
         <input type='submit' name='invitations[".$ID."][accept]'  value='accept' >
         <input type='submit' name='invitations[".$ID."][decline]' value='decline'>
         </form>
+        </div>
         " ;
 
     }
@@ -104,10 +103,6 @@ catch(PDOException $e)
     elseif(isset($_GET['Sent']))
     {
         require_once"challenges/sent.php";
-    }
-    elseif(isset($_GET['Result']))
-    {
-        require_once"challenges/result.php";
     }
 
 
