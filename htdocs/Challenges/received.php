@@ -17,9 +17,8 @@ $stats = implode( " ",$Status);
         if ($stats == "accept")
         {
 
-             UpdateChallenge($ID,$db);
+            header("location:../index.php?Create");
 
-            echo "Accepted </br>";
         } elseif ($stats == "decline")
         {
              UpdateChallenge($ID,$db);
@@ -36,4 +35,3 @@ $stats = implode( " ",$Status);
         trigger_error($sMsg);
     }
 }
-header("location:../index.php");
