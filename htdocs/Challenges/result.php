@@ -41,7 +41,7 @@ try {
         <tbody>
         <?php
         //Verzonden uitdagingen opvragen
-        $QueryActivechallenges = "SELECT ID, challenger_move, challenged_move, challenged_user_ID FROM challenges WHERE challenger_user_ID = :id AND active = 0";
+        $QueryActivechallenges = "SELECT ID, challenger_move, challenged_move, challenged_user_ID FROM challenges WHERE challenger_user_ID = :id OR challenged_user_ID = :id AND active = 0";
         $stActivechallenges = $db->prepare($QueryActivechallenges);
         $stActivechallenges->bindParam(':id', $EigenID, PDO::PARAM_STR);
         $stActivechallenges->execute();
