@@ -10,12 +10,13 @@
 if(isset($_SESSION['user'])) {
     $username = $_SESSION['user'];
 }
-foreach($_POST["invitations"] as $ID => $Status)
+if(isset($_POST["invitations"]))
 {
-    $stats = implode(" ", $Status);
+    foreach ($_POST["invitations"] as $InvID => $Status) {
+        $stats = implode(" ", $Status);
+    }
+    echo $InvID;
 }
-echo $ID;
-
 ?>
 <p>
     <h1>Challenge someone</h1>
@@ -33,9 +34,12 @@ echo $ID;
             <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text">
         <?php
         }
-
+else {
+    ?>
+    <input type="hidden" name="accept" value="<?php echo $InvID; ?>">
+<?php
+}
         ?>
-        <input type="hidden" name="accept" value="<?php echo $ID; ?>" >
 </p>
 <p>
         <!-- Uiterst aantal dagen van actieve uitnodiging --

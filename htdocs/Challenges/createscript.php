@@ -6,78 +6,82 @@
  * Time: 14:53
  *
  * voor mathieu check de $tweede zet die klopt niet
- * 
+ *
  */
 include "../include/dbconnect.php";
-
 $eerstezet = null;
 $tweedezet = null;
-if($_POST["accept"]== null)
+$InvID = null;
+if(isset($_POST["accept"]))
 {
-    $EigenID = $_SESSION["userID"];
+    $InvID = $_POST["accept"];
 }
-$ID = $_POST["accept"];
-echo $_POST["Zet"];
+session_start();
+$EigenID = $_SESSION["userID"];
+
+var_dump($InvID);
 /**
  *
  */
-if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
-    if (isset($_POST["Tegenstander"])) {
+
+
+    if (isset($_POST["Tegenstander"]) || !empty($InvID)) {
         //if (isset($_POST["Verloopdagen"])) {
             if (isset($_POST["Zet"])) {
                 $tegenstander = $_POST["Tegenstander"];
                 //$verloopdagen = $_POST["Verloopdagen"];
 
                 if ($_POST["Zet"] == "rock" ) {
-                    if ($_POST["accept"] !== null)
+                    if (empty($InvID))
+                    {
+                        echo "hi";
+                        $eerstezet = 1;
+                    }
+                    else
                     {
                         $tweedezet = 1;
                     }
-                    else
-                    {
-                        $eerstezet = 1;
-                    }
                     echo "You have selected Rock and are playing against: $tegenstander";
                 } elseif ($_POST["Zet"] == "paper") {
-                    if ($_POST["accept"] !== null)
-                    {
-                        $tweedezet = 2;
-                    }
-                    else
+                    if (empty($InvID))
                     {
                         $eerstezet = 2;
                     }
+                    else
+                    {
+                        $tweedezet = 2;
+                    }
                     echo "You have selected Paper and are playing against: $tegenstander";
                 } elseif ($_POST["Zet"] == "scissors") {
-                    if ($_POST["accept"] != null)
+                    if (empty($InvID))
                     {
-                        $tweedezet = 3;
+                        $eerstezet  = 3;
                         echo "hi";
                     }
                     else
                     {
                         echo "2";
-                        $eerstezet = 3;
+                        $tweedezet = 3;
                     }
                     echo "You have selected Scissors and are playing against: $tegenstander";
                 } elseif ($_POST["Zet"] == "lizard") {
-                    if ($_POST["accept"] !== null)
+                    if (empty($InvID))
+                    {
+                        $eerstezet  = 4;
+                    }
+                    else
                     {
                         $tweedezet = 4;
                     }
-                    else
-                    {
-                        $eerstezet = 4;
-                    }
                     echo "You have selected Lizard and are playing against: $tegenstander";
                 } elseif ($_POST["Zet"] == "spock") {
-                    if ($_POST["accept"] !== null)
+                    if (empty($InvID))
                     {
-                        $tweedezet = 5;
+                        $eerstezet = 5;
                     }
                     else
                     {
-                        $eerstezet = 5;
+                        $tweedezet = 5;
                     }
                     echo "You have selected Spock and are playing against: $tegenstander";
                 }
@@ -87,21 +91,24 @@ if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
             }
         }
     //}
-}
-echo $tweedezet;
+
 try {
-
-    if ($_POST["accept"] != null)
+    var_dump($eerstezet);
+    var_dump($tweedezet);
+    echo "-tweede-".$tweedezet;
+    echo "-eeste-".$eerstezet;
+    if(!empty($tweedezet))
     {
-
-        $QueryChallengeUpdate = "UPDATE `challenges` SET `challenged_move`= '$tweedezet', `active`=0 WHERE ID = $ID";
+        echo"tweede2";
+        $QueryChallengeUpdate = "UPDATE `challenges` SET `challenged_move`= '$tweedezet', `active`=0 WHERE ID = $InvID";
         $stChallengeUpdate = $db->prepare($QueryChallengeUpdate);
         //$stChallengeUpdate->bindParam(':move', $tweedezet, PDO::PARAM_STR);
         $stChallengeUpdate->execute();
-var_dump($stChallengeUpdate);
     }
-    else {
+    elseif(!empty($eerstezet))
+    {
 
+echo"eerste2";
 
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //$db->query("SET SESSION sql_mode = 'ANSI, ONLY_FULL_GROUP_BY'");
@@ -123,7 +130,7 @@ var_dump($stChallengeUpdate);
             if (isset($_POST["Tegenstander"])) {
 
                 //if (isset($_POST["Verloopdagen"])) {
-
+echo $eerstezet;
                 if (isset($_POST["Zet"])) {
                     $QueryChallenge = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date,1,3,$EigenID,$eerstezet, $tegenstanderid,0)";
                     $stChallenge = $db->prepare($QueryChallenge);
@@ -139,6 +146,7 @@ var_dump($stChallengeUpdate);
         $id = $db->lastInsertId();
 
     }
+
 }
 
 catch(PDOException $e)
@@ -151,12 +159,12 @@ catch(PDOException $e)
                 </p>';
     trigger_error($sMsg);
 }
-if($_POST["accept"] !== null)
+if(!empty($tweedezet))
 {
-   // header("location:../index.php?Result");
+    header("location:../index.php?Result");
 }
 else
 {
-   // header("location:../index.php?Create");
+    header("location:../index.php?Create");
 }
 ?>
