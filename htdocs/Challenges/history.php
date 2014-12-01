@@ -8,7 +8,7 @@
 
 require_once("include/dbconnect.php");
 
-session_start();
+//session_start();
 
 if(!isset($_SESSION['userID']))
 {
