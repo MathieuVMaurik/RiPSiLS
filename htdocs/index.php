@@ -72,9 +72,8 @@ try {
     {
         $ID = $aRow["ID"];
         $ChallengeName = $aRow["username"];
-    echo $_SESSION['user'];
         echo "
-        <form action='challenges/received.php' method='post'>
+        <form action='index.php?Create' method='post'>
         " . $ChallengeName ."
         <input type='submit' name='invitations[".$ID."][accept]'  value='accept' >
         <input type='submit' name='invitations[".$ID."][decline]' value='decline'>
@@ -108,6 +107,10 @@ catch(PDOException $e)
     elseif(isset($_GET['History']))
     {
         include "challenges/history.php";
+    }
+    elseif(isset($_GET['Declined']))
+    {
+        include "challenges/Declined.php";
     }
 
     ?>

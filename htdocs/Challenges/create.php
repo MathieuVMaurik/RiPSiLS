@@ -4,19 +4,41 @@
  * Published for RiPSiLS
  * Date: 04-11-2014
  */
-
-
-
 if(isset($_SESSION['user'])) {
     $username = $_SESSION['user'];
 }
+$stats = null;
 if(isset($_POST["invitations"]))
 {
     foreach ($_POST["invitations"] as $InvID => $Status) {
         $stats = implode(" ", $Status);
     }
-    echo $InvID;
 }
+
+if($stats === "decline")
+{
+
+try
+{
+    $UpdateChallenge = "UPDATE challenges SET active = 0 WHERE ID = :ID";
+    $StUpdate = $db->prepare($UpdateChallenge);
+    $StUpdate->bindParam(':ID', $ID, PDO::PARAM_INT);
+    $StUpdate->execute();
+}
+catch (PDOException $e) {
+    $sMsg = '<p>
+            Regelnummer: ' . $e->getLine() . '<br />
+            Bestand: ' . $e->getFile() . '<br />
+            Foutmelding: ' . $e->getMessage() . '
+        </p>';
+
+    trigger_error($sMsg);
+}
+    header("location: index.php?Declined");
+}
+else
+{
+
 ?>
 <p>
     <h1>Challenge someone</h1>
@@ -79,3 +101,5 @@ else {
 
 
     </form>
+<?php
+}
