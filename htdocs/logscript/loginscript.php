@@ -28,7 +28,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
         {
             $_SESSION['userID'] = $user['ID'];
             $_SESSION['user'] = $username;
-            header('Location: ../index.php');
+            header('Location: ../main/index.php');
             exit();
         }
         else
@@ -43,25 +43,3 @@ if(isset($_POST['username']) && isset($_POST['password']))
 }
 
 ?>
-
-<html>
-<head>
-    <title>Login</title>
-</head>
-
-<body>
-
-    <h1>Inloggen</h1>
-
-    <?php if(!empty($login_incorrect)) { ?>
-    <p class="warning">Verkeerd username of wachtwoord!</p>
-    <?php } ?>
-
-    <form action="login.php" method="post">
-        Gebruikersnaam: <input name="username" type="text" /><br />
-        Wachtwoord: <input name="password" type="password" /><br />
-        <button type="submit">Inloggen</button>
-    </form>
-</body>
-
-</html>
