@@ -10,22 +10,25 @@
  */
 
 if(isset($_POST['Zet'])) {
-    echo"zet";
     include "../include/dbconnect.php";
-    $eerstezet = null;
-    $tweedezet = null;
-    $InvID = null;
-    if (isset($_POST["accept"])) {
-        var_dump($_POST["accept"]);
-        $InvID = (int)$_POST["accept"];
-    }
-    session_start();
-    $EigenID = $_SESSION["userID"];
+   // $eerstezet = null;
+    //$tweedezet = null;
 
-    var_dump($InvID);
-    /**
-     *
-     */
+
+
+    session_start();
+
+    $EigenID = $_SESSION["userID"];
+    if($_POST["accept"])
+    {
+        $InvID = $_POST["accept"];
+    }
+    else
+    {
+        $InvID = null;
+    }
+    echo $InvID;
+    echo $_POST["Zet"];
 
 
     if (isset($_POST["Tegenstander"]) || !empty($InvID)) {
@@ -33,13 +36,18 @@ if(isset($_POST['Zet'])) {
         if (isset($_POST["Zet"])) {
             $tegenstander = $_POST["Tegenstander"];
             //$verloopdagen = $_POST["Verloopdagen"];
-
+            echo $_POST["Zet"];
             if ($_POST["Zet"] == "rock") {
-                if (empty($InvID)) {
-                    echo "hi";
+                if(empty($InvID))
+                {
+                    echo "works";
                     $eerstezet = 1;
-                } else {
+                }
+                else
+                {
+                    echo "hi";
                     $tweedezet = 1;
+
                 }
                 echo "You have selected Rock and are playing against: $tegenstander";
             } elseif ($_POST["Zet"] == "paper") {
@@ -78,13 +86,10 @@ if(isset($_POST['Zet'])) {
         }
     }
     //}
+    var_dump($tweedezet);
 
     try {
-        echo $InvID;
-        var_dump($eerstezet);
-        var_dump($tweedezet);
-        echo "-tweede-" . $tweedezet;
-        echo "-eeste-" . $eerstezet;
+
         if (!empty($tweedezet)) {
             echo "tweede2";
             $QueryChallengeUpdate = "UPDATE `challenges` SET challenged_move = :move, `active`=0 WHERE ID = $InvID";
@@ -109,7 +114,6 @@ if(isset($_POST['Zet'])) {
                 $tegenstanderid = $aRow["ID"];
             }
 
-
             $date = date('YmdHi');
             if (isset($_SERVER["REQUEST_METHOD"]) == "POST") {
                 if (isset($_POST["Tegenstander"])) {
@@ -120,8 +124,10 @@ if(isset($_POST['Zet'])) {
                         $QueryChallenge = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date,1,3,$EigenID,$eerstezet, $tegenstanderid,0)";
                         $stChallenge = $db->prepare($QueryChallenge);
                         $stChallenge->execute();
+
                     }
                     //}
+
                 }
 
 
@@ -142,50 +148,24 @@ if(isset($_POST['Zet'])) {
         trigger_error($sMsg);
     }
     if (!empty($tweedezet)) {
-          header("location:../main/index.php?Result");
+          header("location:../main/main.php?Result");
     } else {
-         header("location:../main/index.php?Create");
+         header("location:../main/main.php?Create");
     }
 }
-else
-{
-    if(isset($_SESSION['user'])) {
-        $username = $_SESSION['user'];
-    }
-    $stats = null;
 
-    if($stats === "decline")
-    {
 
-        try
-        {
-            $UpdateChallenge = "UPDATE challenges SET active = 0 WHERE ID = :ID";
-            $StUpdate = $db->prepare($UpdateChallenge);
-            $StUpdate->bindParam(':ID', $ID, PDO::PARAM_INT);
-            $StUpdate->execute();
-        }
-        catch (PDOException $e) {
-            $sMsg = '<p>
-            Regelnummer: ' . $e->getLine() . '<br />
-            Bestand: ' . $e->getFile() . '<br />
-            Foutmelding: ' . $e->getMessage() . '
-        </p>';
 
-            trigger_error($sMsg);
-        }
-        header("location: index.php?Declined");
-    }
+
     else {
-        foreach ($_POST["invitations"] as $InvID => $Status) {
-            $stats = implode(" ", $Status);
-        }
+
 
         ?>
-
-
         <form method="post" action="../challenges/createscript.php">
         <!-- Naam van tegenstander -->
         <?php
+
+
         if (isset($stats) == null) {
             ?>
             <label for="tegenstander">Type the name of your opponent</label>
@@ -197,7 +177,16 @@ else
 
         }
         require_once "../challenges/create.php";
-    }
+
+
 
 }
+
+
+if(!empty($id))
+{
+    echo"lol";
+    header("Location:../main/main.php?Created");
+}
+
 ?>

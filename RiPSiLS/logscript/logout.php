@@ -9,4 +9,4 @@
 session_start();
 session_destroy();
 
-header("Location: ../main/index.php");
+header("Location: ../main/main.php");

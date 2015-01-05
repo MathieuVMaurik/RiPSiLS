@@ -4,14 +4,13 @@
  */
 session_start();
 
-echo $_SESSION['user'];
 require_once "../include/dbconnect.php";
 
 if(isset($_SESSION['user']))
 {
     require_once "../main/header.php";
     require_once "../main/home.php";
-    require_once "../challenges/inventations.php";
+    require_once "../main/invlist.php";
 
 try {
 
@@ -32,8 +31,8 @@ try {
         $ChallengeName = $aRow["username"];
 
        echo "
-<form action='index.php?Create' method='post'>
-    ". $ChallengeName ."
+<form action='../main/main.php?answer' method='post'>
+    " . $ChallengeName ."
 <input type='submit' name='invitations[$ID][accept]'  value='accept' >
 <input type='submit' name='invitations[$ID][decline]' value='decline'>
 </form>
@@ -64,9 +63,17 @@ catch(PDOException $e)
     {
         include "../challenges/history.php";
     }
-    elseif(isset($_GET['Declined']))
+    elseif(isset($_GET['declined']))
     {
         include "../challenges/Declined.php";
+    }
+    elseif(isset($_GET['Created']))
+    {
+        include "../challenges/created.php";
+    }
+    elseif(isset($_GET['answer']))
+    {
+        include "../challenges/inventations.php";
     }
     require_once "../main/footer.php";
 }

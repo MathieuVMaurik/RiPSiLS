@@ -28,17 +28,19 @@ if(isset($_POST['username']) && isset($_POST['password']))
         {
             $_SESSION['userID'] = $user['ID'];
             $_SESSION['user'] = $username;
-            header('Location: ../main/index.php');
+            header('Location: ../main/main.php');
             exit();
         }
         else
         {
             $login_incorrect = true;
+           require_once"../logscript/login.php";
         }
     }
     else
     {
         $login_incorrect = true;
+        require_once"../logscript/login.php";
     }
 }
 
