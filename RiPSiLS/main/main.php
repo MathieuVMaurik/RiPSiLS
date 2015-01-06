@@ -53,7 +53,7 @@ catch(PDOException $e)
 
     if(isset($_GET['Create']))
     {
-        include "../challenges/createscript.php";
+        include "../challenges/create.php";
     }
     elseif(isset($_GET['Sent']))
     {
