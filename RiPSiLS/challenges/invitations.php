@@ -14,7 +14,7 @@ if(isset($_POST["invitations"])) {
 if ($stats === "accept") {
 echo "this works";
 
-    require_once"../challenges/createscript.php";
+    require_once"../challenges/accept.php";
 
 }
 elseif ($stats === "decline") {

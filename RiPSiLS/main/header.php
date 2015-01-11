@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html>
 <head>
@@ -7,4 +6,3 @@
     <script type="text/javascript" src="../include/java.js"></script>
     <link rel="stylesheet" href="../include/style.css" type="text/css" media="screen" />
 </head>
-

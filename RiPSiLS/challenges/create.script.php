@@ -6,7 +6,7 @@
  * Date: 04-11-2014
  */
 
-require_once "include/dbconnect.php";
+require_once "../include/dbconnect.php";
 
 function getChallengeeID($name) {
     global $db;

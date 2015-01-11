@@ -6,7 +6,6 @@
  * Time: 15:12
  */
 
-require_once("include/dbconnect.php");
 
 //session_start();
 

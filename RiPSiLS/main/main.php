@@ -73,7 +73,11 @@ catch(PDOException $e)
     }
     elseif(isset($_GET['answer']))
     {
-        include "../challenges/inventations.php";
+        include "../challenges/accept.php";
+    }
+    elseif(isset($_GET['Result']))
+    {
+        include "../challenges/result.php";
     }
     require_once "../main/footer.php";
 }

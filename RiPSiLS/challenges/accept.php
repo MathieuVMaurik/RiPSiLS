@@ -2,14 +2,14 @@
 
 <h1>Make your move</h1>
 
-<form method="post" action="../challenges/accepted.php">
+<form method="post" >
     <input type="hidden" name="accept" value="<?php echo $InvID; ?>">
     
     <p>
-        <?php include 'movecontrol.php' ?>
+        <?php require_once 'movecontrol.php' ?>
     </p>
 
     <p>
-        <input type="submit" value="Challenge!" onclick="window.location='Challenges/createdNoEnemy.php'"/>
+        <input type="submit" value="final smash!"/>
     </p>
 </form>
