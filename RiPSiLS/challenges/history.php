@@ -97,7 +97,12 @@ $moves = array(
                     ?>
                 </ul>
 
-                <p>Winnaar: <strong><?= $game['winner']; ?></strong></p>
+                <?php if($game['winner']): ?>
+                    <p>Winnaar: <strong><?= $game['winner']; ?></strong></p>
+                <?php else: ?>
+                    <p><strong>Gelijkspel</strong></p>
+                <?php endif; ?>
+                <hr />
             </div>
             <?php
         }

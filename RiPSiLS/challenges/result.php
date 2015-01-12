@@ -1,5 +1,23 @@
 <?php
 
+function getMoveName($move_number)
+{
+    switch ($move_number)
+    {
+        case 1:
+            return "Steen";
+        case 2:
+            return "Papier";
+        case 3:
+            return "Schaar";
+        case 4:
+            return "Lizard";
+        case 5:
+            return "Spock";
+    }
+
+}
+
 $gameID = $_GET['game'];
 
 $gamestmt = $db->prepare('SELECT * FROM games WHERE ID = :gameid');
@@ -50,8 +68,8 @@ else
 <h1>Overzicht van spel</h1>
 
 <ul>
-    <li>Uitdager: <strong><?= $challenger ?></strong> met <strong><?= $challengermove ?></strong></li>
-    <li>Uitgedaagde: <strong><?= $challenged ?></strong> met <strong><?= $challengedmove ?></strong></li>
+    <li>Uitdager: <strong><?= $challenger ?></strong> met <strong><?= getMoveName($challengermove) ?></strong></li>
+    <li>Uitgedaagde: <strong><?= $challenged ?></strong> met <strong><?= getMoveName($challengedmove) ?></strong></li>
     <?php if($winner): ?>
     <li>Winnaar: <strong><?= $winner ?></strong></li>
         <?php else: ?>

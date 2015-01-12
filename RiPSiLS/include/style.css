@@ -42,8 +42,9 @@ label{
     margin-right: 12%;
 }
 
-
-
+.footer{
+    clear: both;
+}
 
 .rules
 {
@@ -69,4 +70,8 @@ label{
 .recieved
 {
     fload:left;
+}
+
+.inventations{
+    float: left;
 }

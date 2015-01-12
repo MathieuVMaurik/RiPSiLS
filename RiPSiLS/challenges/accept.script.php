@@ -1,6 +1,7 @@
 <?php
 
 require_once "../include/dbconnect.php";
+include_once "calculateresult.php";
 
 if(isset($_POST["invitations"])) {
 
@@ -47,7 +48,7 @@ function getMoveID($name) {
 
 function acceptChallenge($challengID ,$moveID) {
     global $db;
-    $date = date('YmdHi');
+    $date = date('Y-m-d H:i:s');
 
     try {
         $query = "UPDATE `challenges` SET `challenged_move`= :move, `active`=0 WHERE ID = :challengID";
@@ -55,6 +56,50 @@ function acceptChallenge($challengID ,$moveID) {
         $statement->bindParam(":challengID" , $challengID, PDO::PARAM_INT);
         $statement->bindParam(":move" , $moveID, PDO::PARAM_INT);
         $statement->execute();
+
+        //Get challenge to determine who wins
+        $challenge_stmt = $db->prepare("SELECT * FROM challenges WHERE ID = ".$challengID.";");
+        $challenge_stmt->execute();
+
+        $challenge = $challenge_stmt->fetch(PDO::FETCH_OBJ);
+
+        $gamestmt = $db->prepare("INSERT INTO `games` (challenger_user_ID, challenged_user_ID, winner_user_ID) VALUES (:challenger, :challenged, :winner)");
+        $gamestmt->bindParam(':challenger', $challenge->challenger_user_ID);
+        $gamestmt->bindParam(':challenged', $challenge->challenged_user_ID);
+        $winner = calculate_result($challenge->challenger_move, $challenge->challenged_move);
+        if($winner == 1)
+        {
+            $gamestmt->bindParam(':winner', $challenge->challenger_user_ID);
+        }
+        elseif($winner == 2)
+        {
+            $gamestmt->bindParam(':winner', $challenge->challenged_user_ID);
+        }
+        else
+        {
+            $gamestmt->bindParam(':winner', $dummy=NULL);
+        }
+        $gamestmt->execute();
+
+        $gameID = $db->lastInsertId();
+        $GLOBALS['gameID'] = $gameID;
+
+        //Challenger move
+        $movestmt = $db->prepare("INSERT INTO `moves` (datetime, move, user_ID, game_ID, turn) VALUES (:date, :move, :user, :game, 1)"); //The 1 is temporary, change when multiple turns implemented
+        $movestmt->bindParam(':date', date('Y-m-d H:i:s'));
+        $movestmt->bindParam(':move', $challenge->challenger_move);
+        $movestmt->bindParam(':user', $challenge->challenger_user_ID);
+        $movestmt->bindParam(':game', $gameID);
+        $movestmt->execute();
+
+        //Challenged move
+        $movestmt = $db->prepare("INSERT INTO `moves` (datetime, move, user_ID, game_ID, turn) VALUES (:date, :move, :user, :game, 1)"); //The 1 is temporary, change when multiple turns implemented
+        $movestmt->bindParam(':date', date('Y-m-d H:i:s'));
+        $movestmt->bindParam(':move', $challenge->challenged_move);
+        $movestmt->bindParam(':user', $challenge->challenged_user_ID);
+        $movestmt->bindParam(':game', $gameID);
+        $movestmt->execute();
+
     }
     catch(PDOException $e)
     {
@@ -83,8 +128,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Zet"])) {
 
         $moveID = getMoveID($moveName);
         acceptChallenge($challengID, $moveID);
-        header("location:../main/main.php?Result");
-
+        header('Location: index.php?Result=1&game='.$gameID);
 }
 
 ?>

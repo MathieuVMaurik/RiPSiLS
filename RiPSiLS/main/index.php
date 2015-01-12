@@ -6,11 +6,13 @@ session_start();
 
 require_once "../include/dbconnect.php";
 
+//Everything that happens when you're logged in
 if(isset($_SESSION['user']))
 {
+    //Include the header, homepage, and invitations
     require_once "../main/header.php";
-    require_once "../main/home.php";
-    require_once "../main/invlist.php";
+    include "../main/home.php";
+    include "../challenges/inventations.php";
 
 try {
 
@@ -31,15 +33,13 @@ try {
         $ChallengeName = $aRow["username"];
 
        echo "
-<form action='../main/main.php?answer' method='post'>
-    " . $ChallengeName ."
+<form action='index.php?Create' method='post'>
+    ". $ChallengeName ."
 <input type='submit' name='invitations[$ID][accept]'  value='accept' >
 <input type='submit' name='invitations[$ID][decline]' value='decline'>
-</form>";
+</form>
+</div>";
     }
-    echo"</div>
-<div class='content'>";
-
 }
 catch(PDOException $e)
 {
@@ -54,7 +54,7 @@ catch(PDOException $e)
 
     if(isset($_GET['Create']))
     {
-        include "../challenges/create.php";
+        include "../challenges/createscript.php";
     }
     elseif(isset($_GET['Sent']))
     {
@@ -64,24 +64,18 @@ catch(PDOException $e)
     {
         include "../challenges/history.php";
     }
-    elseif(isset($_GET['declined']))
+    elseif(isset($_GET['Declined']))
     {
         include "../challenges/Declined.php";
     }
-    elseif(isset($_GET['Created']))
-    {
-        include "../challenges/created.php";
-    }
-    elseif(isset($_GET['answer']))
-    {
-        include "../challenges/accept.php";
-    }
-    elseif(isset($_GET['Result']) && isset($_GET['game']))
+    elseif(isset($_GET['Result']))
     {
         include "../challenges/result.php";
     }
     require_once "../main/footer.php";
 }
+
+//Everything that happens when you are not logged in
 else
 {
     require_once "../logscript/login.php";
