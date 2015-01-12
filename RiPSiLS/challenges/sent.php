@@ -5,7 +5,7 @@
  * Date: 10-11-2014
  */
 ?>
-<body class="challengessentbody">
+<h2>challenge sent, here is a list of send challenges</h2>
 <p>
     <?php
     if(isset($_SESSION['user'])) {
@@ -213,4 +213,3 @@ catch(PDOException $e)
     trigger_error($sMsg);
 }
 ?>
-</body>

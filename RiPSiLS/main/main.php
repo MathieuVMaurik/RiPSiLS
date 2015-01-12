@@ -38,6 +38,7 @@ try {
 </form>
 </div>";
     }
+    echo"<div class='content'>";
 
 }
 catch(PDOException $e)

@@ -1,12 +1,37 @@
 <?php
 
 require_once "../include/dbconnect.php";
+
 if(isset($_POST["invitations"])) {
 
     foreach ($_POST["invitations"] as $InvID => $Status) {
         $stats = implode(" ", $Status);
     }
 
+}
+function Declined( $InvID){
+    global $db;
+    echo $InvID;
+    try {
+        $UpdateChallenge = "UPDATE challenges SET active = 0 WHERE ID = :ID";
+        $StUpdate = $db->prepare($UpdateChallenge);
+        $StUpdate->bindParam(':ID', $InvID, PDO::PARAM_INT);
+        $StUpdate->execute();
+
+    echo"declined";
+         header("location: ../main/main.php?declined");
+    }
+
+    catch(PDOException $e)
+    {
+        $sMsg = '<p>
+                Regelnummer: '.$e->getLine().' <br />
+                Bestand: '.$e->getFile().' <br />
+                Foutmelding: '.$e->getMessage().' <br />
+
+                </p>';
+        trigger_error($sMsg);
+    }
 }
 
 function getMoveID($name) {
@@ -43,15 +68,23 @@ function acceptChallenge($challengID ,$moveID) {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Zet"])) {
-    $moveName = $_POST["Zet"];
-    $challengID = $_POST["accept"];
 
-    $challengerID = $_SESSION["userID"];
+if ($stats === "decline") {
 
-    $moveID = getMoveID($moveName);
-    acceptChallenge($challengID, $moveID);
-    header("location:../main/main.php?Result");
+    Declined($InvID);
+}
+elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Zet"])) {
+
+
+        $moveName = $_POST["Zet"];
+        $challengID = $_POST["accept"];
+
+        $challengerID = $_SESSION["userID"];
+
+        $moveID = getMoveID($moveName);
+        acceptChallenge($challengID, $moveID);
+        header("location:../main/main.php?Result");
+
 }
 
 ?>

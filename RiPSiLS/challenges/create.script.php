@@ -62,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $challengeeID = getChallengeeID($challengeeName);
     $moveID = getMoveID($moveName);
     createChallenge($challengerID, $challengeeID, $moveID);
+    header("location: ../main/main.php?Sent");
 }
 
 ?>

@@ -10,10 +10,3 @@
     <a href="main.php?Sent">Sent challenges</a>
     <a href="main.php?History">Your game history</a>
 </div>
-
-
-
-
-
-
-
