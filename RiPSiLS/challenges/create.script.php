@@ -26,10 +26,6 @@ if(isset($_SESSION['user'])) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($count != 0) {
 
-
-
-
-
             //Requests the ID of the player that will be challenged.
             function getChallengeeID($name)
             {

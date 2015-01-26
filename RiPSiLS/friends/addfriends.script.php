@@ -7,6 +7,7 @@
  */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    $userid = $_SESSION["userID"];
 
     if (isset($_POST["namefriend"])) {
         foreach ($_POST["namefriend"] as $friendID => $Status) {
@@ -17,11 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-        $QueryInvite = "SELECT * FROM friends      WHERE friend_ID = :friend";
+        $QueryInvite = "SELECT * FROM friends      WHERE friend_ID = :friend AND user_ID = :userid ";
 
 
         $StInvite = $db->prepare($QueryInvite);
         $StInvite->bindParam(':friend', $friendID, PDO::PARAM_INT);
+        $StInvite->bindParam(':userid', $userid, PDO::PARAM_INT);
         $StInvite->execute();
 
         $count = $StInvite->rowCount();
@@ -37,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $StInvite = $db->prepare($Query);
             $StInvite->bindParam(':date', $date, PDO::PARAM_STR);
-            $StInvite->bindParam(':user', $_SESSION["userID"], PDO::PARAM_INT);
+            $StInvite->bindParam(':user', $userid, PDO::PARAM_INT);
             $StInvite->bindParam(':friend', $friendID, PDO::PARAM_INT);
             $StInvite->execute();
             echo "added";

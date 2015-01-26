@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2014 at 09:16 AM
+-- Generation Time: Jan 26, 2015 at 03:32 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `ripsils`
 --
-CREATE DATABASE IF NOT EXISTS `ripsils` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `ripsils`;
 
 -- --------------------------------------------------------
 
@@ -28,46 +26,66 @@ USE `ripsils`;
 -- Table structure for table `challenges`
 --
 
-DROP TABLE IF EXISTS `challenges`;
 CREATE TABLE IF NOT EXISTS `challenges` (
 `ID` int(11) unsigned NOT NULL,
-  `create_date` int(11) unsigned NOT NULL,
+  `create_date` datetime NOT NULL,
   `active` tinyint(1) unsigned NOT NULL,
-  `expiration_date` int(11) unsigned DEFAULT NULL,
+  `expiration_date` datetime DEFAULT NULL,
   `challenger_user_ID` int(11) unsigned NOT NULL,
   `challenger_move` tinyint(1) unsigned NOT NULL,
   `challenged_user_ID` int(11) unsigned NOT NULL,
   `challenged_move` tinyint(1) unsigned DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `challenges`
 --
 
 INSERT INTO `challenges` (`ID`, `create_date`, `active`, `expiration_date`, `challenger_user_ID`, `challenger_move`, `challenged_user_ID`, `challenged_move`) VALUES
-(1, 23062014, 0, 5, 33, 2, 55, 0),
-(9, 4294967295, 1, 5, 55, 2, 33, 0),
-(10, 4294967295, 1, 7, 55, 5, 33, 0),
-(26, 4294967295, 0, 4, 2, 2, 55, 0),
-(27, 4294967295, 1, 2, 4, 5, 3, 0),
-(28, 4294967295, 0, 1, 4, 4, 1, 5),
-(29, 4294967295, 0, 5, 2, 4, 55, 0),
-(30, 4294967295, 0, 2, 1, 3, 55, 2),
-(31, 4294967295, 0, 2, 1, 5, 33, 4),
-(32, 4294967295, 0, 6, 1, 4, 55, 5),
-(33, 4294967295, 3, 2, 2, 2, 1, 0),
-(34, 4294967295, 2, 1, 1, 3, 2, 5),
-(35, 4294967295, 3, 7, 1, 2, 4, 0),
-(36, 4294967295, 0, 3, 1, 2, 55, 0),
-(37, 4294967295, 0, 1, 1, 5, 55, 0),
-(38, 4294967295, 0, 3, 1, 5, 4, 0),
-(39, 4294967295, 0, 3, 1, 5, 4, 0),
-(40, 4294967295, 0, 3, 1, 5, 4, 0),
-(41, 4294967295, 0, 3, 1, 3, 55, 0),
-(42, 4294967295, 0, 3, 1, 1, 55, 0),
-(43, 4294967295, 1, 3, 55, 1, 2, 0),
-(44, 4294967295, 0, 3, 1, 2, 55, 0),
-(45, 4294967295, 1, 3, 4, 3, 1, 0);
+(1, '0000-00-00 00:00:00', 0, NULL, 1, 1, 2, 2),
+(2, '0000-00-00 00:00:00', 1, NULL, 2, 3, 1, 4),
+(3, '0000-00-00 00:00:00', 0, NULL, 3, 2, 2, 2),
+(4, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 1, 3, 2, 2),
+(5, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 1, 4, 2, 5),
+(6, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 1, 5, 2, 4),
+(7, '0000-00-00 00:00:00', 1, '0000-00-00 00:00:00', 1, 2, 2, 0),
+(8, '0000-00-00 00:00:00', 1, '0000-00-00 00:00:00', 1, 2, 2, 0),
+(9, '0000-00-00 00:00:00', 1, '0000-00-00 00:00:00', 1, 3, 3, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `friends`
+--
+
+CREATE TABLE IF NOT EXISTS `friends` (
+`ID` int(11) unsigned NOT NULL,
+  `create_date` datetime NOT NULL,
+  `user_ID` int(11) unsigned NOT NULL,
+  `friend_ID` int(11) unsigned NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+
+--
+-- Dumping data for table `friends`
+--
+
+INSERT INTO `friends` (`ID`, `create_date`, `user_ID`, `friend_ID`) VALUES
+(9, '0000-00-00 00:00:00', 1, 2),
+(10, '0000-00-00 00:00:00', 1, 5),
+(14, '0000-00-00 00:00:00', 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `friend_invitations`
+--
+
+CREATE TABLE IF NOT EXISTS `friend_invitations` (
+`ID` int(11) unsigned NOT NULL,
+  `create_date` datetime NOT NULL,
+  `user_ID` int(11) unsigned NOT NULL,
+  `friend_ID` int(11) unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -75,13 +93,25 @@ INSERT INTO `challenges` (`ID`, `create_date`, `active`, `expiration_date`, `cha
 -- Table structure for table `games`
 --
 
-DROP TABLE IF EXISTS `games`;
 CREATE TABLE IF NOT EXISTS `games` (
 `ID` int(11) unsigned NOT NULL,
   `challenger_user_ID` int(11) unsigned NOT NULL,
   `challenged_user_ID` int(11) unsigned NOT NULL,
-  `winner_user_ID` int(11) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `winner_user_ID` int(11) unsigned DEFAULT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `games`
+--
+
+INSERT INTO `games` (`ID`, `challenger_user_ID`, `challenged_user_ID`, `winner_user_ID`) VALUES
+(1, 1, 2, 2),
+(2, 2, 1, 1),
+(3, 1, 2, 1),
+(4, 1, 2, 2),
+(5, 3, 2, NULL),
+(6, 1, 2, 1),
+(7, 1, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -89,15 +119,34 @@ CREATE TABLE IF NOT EXISTS `games` (
 -- Table structure for table `moves`
 --
 
-DROP TABLE IF EXISTS `moves`;
 CREATE TABLE IF NOT EXISTS `moves` (
 `ID` int(11) unsigned NOT NULL,
-  `datetime` int(11) unsigned NOT NULL,
+  `datetime` datetime NOT NULL,
   `move` tinyint(1) unsigned NOT NULL,
   `user_ID` int(11) unsigned NOT NULL,
   `game_ID` int(11) unsigned NOT NULL,
   `turn` smallint(2) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+
+--
+-- Dumping data for table `moves`
+--
+
+INSERT INTO `moves` (`ID`, `datetime`, `move`, `user_ID`, `game_ID`, `turn`) VALUES
+(1, '2014-01-01 17:30:00', 1, 1, 1, 1),
+(2, '2014-01-01 17:30:00', 2, 2, 1, 1),
+(3, '2014-01-01 17:30:00', 3, 1, 2, 1),
+(4, '2014-01-01 17:30:00', 4, 2, 2, 1),
+(5, '2015-01-19 15:11:05', 4, 1, 3, 1),
+(6, '2015-01-19 15:11:05', 5, 2, 3, 1),
+(7, '2015-01-19 15:11:31', 1, 1, 4, 1),
+(8, '2015-01-19 15:11:31', 2, 2, 4, 1),
+(9, '2015-01-19 15:37:46', 2, 3, 5, 1),
+(10, '2015-01-19 15:37:46', 2, 2, 5, 1),
+(11, '2015-01-19 15:54:06', 3, 1, 6, 1),
+(12, '2015-01-19 15:54:06', 2, 2, 6, 1),
+(13, '2015-01-20 16:58:18', 5, 1, 7, 1),
+(14, '2015-01-20 16:58:18', 4, 2, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -105,25 +154,23 @@ CREATE TABLE IF NOT EXISTS `moves` (
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
 `ID` int(11) unsigned NOT NULL,
-  `create_date` int(11) unsigned NOT NULL,
+  `create_date` datetime NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=56 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`ID`, `create_date`, `username`, `password`) VALUES
-(1, 123456789, 'Bob', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka'),
-(2, 123456789, 'Jan', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka'),
-(3, 123456789, 'Pieter', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka'),
-(4, 123456789, '12345', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka'),
-(33, 23062014, 'Klaas', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka'),
-(55, 23062014, 'Henk', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka');
+(1, '2014-01-01 17:00:00', 'Bob', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka'),
+(2, '2014-01-01 17:00:00', 'Jan', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka'),
+(3, '2014-01-01 17:00:00', 'Pieter', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka'),
+(4, '2014-01-01 17:00:00', '12345', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka'),
+(5, '0000-00-00 00:00:00', 'janno', '$2y$10$askTJQK09uKFFgSUKOJ9QO/1MSunJIhmnx3RDeQkTA9bW3.JXaCka');
 
 --
 -- Indexes for dumped tables
@@ -134,6 +181,18 @@ INSERT INTO `users` (`ID`, `create_date`, `username`, `password`) VALUES
 --
 ALTER TABLE `challenges`
  ADD PRIMARY KEY (`ID`), ADD KEY `fk_challenges_users_idx` (`challenger_user_ID`), ADD KEY `fk_challenges_users1_idx` (`challenged_user_ID`);
+
+--
+-- Indexes for table `friends`
+--
+ALTER TABLE `friends`
+ ADD PRIMARY KEY (`ID`), ADD KEY `fk_friends_users1_idx` (`user_ID`), ADD KEY `fk_friends_users2_idx` (`friend_ID`);
+
+--
+-- Indexes for table `friend_invitations`
+--
+ALTER TABLE `friend_invitations`
+ ADD PRIMARY KEY (`ID`), ADD KEY `fk_friend_invitations_users1_idx` (`user_ID`), ADD KEY `fk_friend_invitations_users2_idx` (`friend_ID`);
 
 --
 -- Indexes for table `games`
@@ -161,22 +220,32 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `challenges`
 --
 ALTER TABLE `challenges`
-MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
+MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `friends`
+--
+ALTER TABLE `friends`
+MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT for table `friend_invitations`
+--
+ALTER TABLE `friend_invitations`
+MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `games`
 --
 ALTER TABLE `games`
-MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT;
+MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `moves`
 --
 ALTER TABLE `moves`
-MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT;
+MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=56;
+MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --
@@ -187,6 +256,20 @@ MODIFY `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=56;
 ALTER TABLE `challenges`
 ADD CONSTRAINT `fk_challenges_users` FOREIGN KEY (`challenger_user_ID`) REFERENCES `users` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_challenges_users1` FOREIGN KEY (`challenged_user_ID`) REFERENCES `users` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `friends`
+--
+ALTER TABLE `friends`
+ADD CONSTRAINT `fk_friends_users1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_friends_users2` FOREIGN KEY (`friend_ID`) REFERENCES `users` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `friend_invitations`
+--
+ALTER TABLE `friend_invitations`
+ADD CONSTRAINT `fk_friend_invitations_users1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_friend_invitations_users2` FOREIGN KEY (`friend_ID`) REFERENCES `users` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `games`
