@@ -7,6 +7,16 @@
  */
 
 require_once "../include/dbconnect.php";
+if(isset($_GET["friend"]))
+{
+    $friend = $_GET["friend"];
+}
+else
+{
+    $friend = null;
+}
+
+
 
 function getChallengeeID($name) {
     global $db;
@@ -40,17 +50,22 @@ function getMoveID($name) {
     }
 }
 
-function createChallenge($challenger, $challengee, $move) {
-    global $db;
-    $date = date('YmdHi');
-
-    try {
-        $query = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date, 1, 3, $challenger, $move, $challengee, 0)";
-        $statement = $db->prepare($query);
-        $statement->execute();
+function createChallenge($challenger, $challengee, $move)
+{
+    if (empty($_POST["Tegenstander"])) {
+    $challengee = $_POST["TegenstanderList"];
     }
-    catch (PDOException $e) {
-        trigger_error($e);
+    else {
+        global $db;
+        $date = date('YmdHi');
+
+        try {
+            $query = "INSERT INTO challenges (create_date, active, expiration_date, challenger_user_ID, challenger_move, challenged_user_ID, challenged_move) VALUES ($date, 1, 3, $challenger, $move, $challengee, 0)";
+            $statement = $db->prepare($query);
+            $statement->execute();
+        } catch (PDOException $e) {
+            trigger_error($e);
+        }
     }
 }
 

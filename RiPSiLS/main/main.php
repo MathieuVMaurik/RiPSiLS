@@ -10,43 +10,48 @@ if(isset($_SESSION['user']))
 {
     require_once "../main/header.php";
     require_once "../main/home.php";
+    require_once "../friends/friends.php";
     require_once "../main/invlist.php";
 
-    try {
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+try {
 
-        $QueryInvite = "SELECT username,challenges.ID FROM challenges
-                        LEFT JOIN users ON challenges.challenger_user_ID = users.ID
-                        WHERE challenged_user_ID = :UserID AND active= '1'";
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $StInvite = $db->prepare($QueryInvite);
-        $StInvite->bindParam(':UserID', $_SESSION['userID'], PDO::PARAM_INT);
-        $StInvite->execute();
 
-        while ($aRow = $StInvite->fetch(PDO::FETCH_ASSOC))
-        {
-            $ID = $aRow["ID"];
-            $ChallengeName = $aRow["username"];
+    $QueryInvite = "SELECT username,challenges.ID FROM challenges
+                          LEFT JOIN users ON challenges.challenger_user_ID = users.ID
+                          WHERE challenged_user_ID = :UserID AND active= '1'";
 
-            echo "
-                <form action='../main/main.php?answer' method='post'>
-                    " . $ChallengeName . "
-                    <input type='submit' name='invitations[$ID][accept]'  value='accept' >
-                    <input type='submit' name='invitations[$ID][decline]' value='decline'>
-                </form>";
-        }
-        echo"</div><div class='content'>";
-    }
-    catch(PDOException $e)
+    $StInvite = $db->prepare($QueryInvite);
+    $StInvite->bindParam(':UserID', $_SESSION['userID'], PDO::PARAM_INT);
+    $StInvite->execute();
+
+    while ($aRow = $StInvite->fetch(PDO::FETCH_ASSOC))
     {
-        $sMsg = '<p>
-                Regelnummer: '.$e->getLine().'<br />
-                Bestand: '.$e->getFile().'<br />
-                Foutmelding: '.$e->getMessage().'
-            </p>';
+        $ID = $aRow["ID"];
+        $ChallengeName = $aRow["username"];
 
-        trigger_error($sMsg);
+       echo "
+<form action='../main/main.php?answer' method='post'>
+    " . $ChallengeName ."
+<input type='submit' name='invitations[$ID][accept]'  value='accept' >
+<input type='submit' name='invitations[$ID][decline]' value='decline'>
+</form>";
     }
+    echo"</div>
+<div class='content'>";
+
+}
+catch(PDOException $e)
+{
+    $sMsg = '<p>
+            Regelnummer: '.$e->getLine().'<br />
+            Bestand: '.$e->getFile().'<br />
+            Foutmelding: '.$e->getMessage().'
+        </p>';
+
+    trigger_error($sMsg);
+}
 
     if(isset($_GET['Create']))
     {
@@ -75,6 +80,10 @@ if(isset($_SESSION['user']))
     elseif(isset($_GET['Result']) && isset($_GET['game']))
     {
         include "../challenges/result.php";
+    }
+    elseif(isset($_GET['addfriends']))
+    {
+        include "../friends/addfriends.php";
     }
     require_once "../main/footer.php";
 }

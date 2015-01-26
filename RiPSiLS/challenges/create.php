@@ -6,7 +6,7 @@
     <p>
         <!-- Naam van tegenstander -->
         <label for="tegenstander">Type the name of your opponent</label>
-        <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text">
+        <input id="tegenstander" name="Tegenstander" placeholder="Tegenspeler" required="" type="text" value="<?php echo $friend; ?>">
     </p>
 
     <p>

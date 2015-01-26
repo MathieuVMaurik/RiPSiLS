@@ -75,3 +75,10 @@ label{
 .inventations{
     float: left;
 }
+
+.invlist{
+    float: left;
+}
+.friends{
+    float: right;
+}
