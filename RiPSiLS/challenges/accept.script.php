@@ -128,7 +128,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Zet"])) {
 
         $moveID = getMoveID($moveName);
         acceptChallenge($challengID, $moveID);
-        header('Location: index.php?Result=1&game='.$gameID);
+        header('Location: main.php?Result=1&game='.$gameID);
 }
 
 ?>
